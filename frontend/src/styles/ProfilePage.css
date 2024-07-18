@@ -1,0 +1,141 @@
+
+.profile-page {
+    height: 100%;
+}
+
+.profile-header {
+    width: 100%;
+    height: 44px;
+    display: flex;
+    position: fixed;
+    top: 0;
+    background-color: #000000;
+}
+
+.profile-header-left-section {
+    width: 55px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-header-middle-section {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-header-right-section {
+    width: 55px;
+}
+
+.profile-about-container {
+    margin-top: 45px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 12px;
+}
+
+.profile-about-upper {
+    display: flex;
+    height: 105px;
+}
+
+.profile-about-pic-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 110px;
+}
+
+.profile-about-change-container {
+    flex: 1;
+    padding: 0 14px;
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-about-account-name-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.profile-about-account-name {
+    font-size: 22px;
+}
+
+.profile-about-buttons-container {
+    flex: 1;
+    display: flex;
+    align-items: flex-start;
+    column-gap: 8px;
+}
+
+.profile-about-buttons {
+    background-color: rgb(54, 54, 54);
+    font-weight: bold;
+    font-size: 15px;
+    border: 1px solid rgba(0, 0, 0, 0.4);
+    padding: 7px 16px;
+    border-radius: 8px;
+}
+
+.profile-about-lower {
+    padding: 0 16px;
+}
+
+.profile-about-bio-container {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    margin-bottom: 20px;
+}
+
+.profile-about-bio-account-name {
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.profile-about-bio-text {
+    font-size: 14px;
+    line-height: 18px;
+}
+
+.profile-status-container {
+    display: flex;
+    padding: 15px 40px;
+    column-gap: 70px;
+}
+
+.count-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile-tab-list {
+    display: flex;
+    padding: 10px 25px;
+    justify-content: space-between;
+}
+
+.profile-post-container {
+    padding-bottom: 20%;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    column-gap: 4px;
+    row-gap: 4px;
+    background-color: transparent;
+}
+
+.post-thumbnail-container {
+    height: 122px;
+}
+
+.post-thumbnail-pic {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}

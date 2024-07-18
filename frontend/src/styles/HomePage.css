@@ -1,0 +1,311 @@
+.home-container {
+    height: 100vh;
+    position: relative;
+}
+
+/* HEADER CONTAINER - HOME PAGE */
+.header-container {
+    width: 100%;
+    height: 45px;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 16px;
+    position: fixed;
+    top: 0;
+    background-color: #000000;
+}
+
+.header-left-side {
+    width: 125px;
+    display: flex;
+    position: relative;
+}
+
+.selection-container {
+    background-color: rgb(39, 38, 38);
+    position: absolute;
+    bottom: -182%;
+    border-radius: 5px;
+}
+
+.WH-L {
+    width: 145px;
+    height: 38px;
+}
+
+.WH-S {
+    width: 100px;
+    height: 38px;
+    font-size: 17px;
+}
+
+.selection-option > a {
+    text-decoration: none;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.logo-title-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.logo-title {
+    width: 96%;
+    height: 80%;
+}
+
+.select-category-container {
+    width: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header-right-side {
+    width: 94px;
+    display: flex;
+    justify-content: flex-end;
+    column-gap: 16px;
+    position: relative;
+}
+
+
+.default-button-style {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+.create-logo-container {
+   display: flex;
+   align-items: center;
+}
+
+.notification-logo-container {
+    display: flex;
+    align-items: center;
+}
+
+/* STORIES CONTAINER */
+.stories-container {
+    margin-top: 45px;
+    display: flex;
+    height: 102px;
+    background-color: rgb(18, 18, 18);
+    border: 1px solid rgb(44, 44, 44);
+    overflow-x: auto;
+    padding: 0 6px;
+}
+
+.stories-container::-webkit-scrollbar {
+    display: none;
+}
+
+.story-container {
+    width: 82px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    row-gap: 5px;
+}
+
+.story-pic-border {
+    border: 2px solid blue;
+    border-radius: 50%;
+}
+
+.story-pic-border-seen {
+    border: 2px solid gray;
+    border-radius: 50%;
+}
+
+.story-profile-pic-container.WH-56 {
+    width: 56px;
+    height: 56px;
+}
+
+.story-profile-pic-container.WH-38 {
+    width: 38px;
+    height: 38px;
+}
+
+.story-profile-pic-container.WH-80 {
+    width: 80px;
+    height: 80px;
+}
+
+.story-profile-pic-container {
+  
+    border-radius: 50%;
+    background-color: rgb(218, 214, 214);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid black;
+}
+
+.story-username {
+    font-size: 11px;
+}
+
+/* HOME-MAIN-CONTAINER */
+
+.home-body-container {
+    padding-bottom: 20%;
+}
+
+.post-main-container {
+    position: relative;
+}
+
+.post-header-container {
+    width: 100%;
+    height: 55px;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 8px;
+}
+
+.post-header-left-side {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+}
+
+.post-header-right-side {
+    width: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.clicked-post-option-container {
+    background-color: rgb(80, 79, 79);
+    border-radius: 20px;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    left: 10%;
+    right: 10%;
+    top: 10%;
+    justify-content: space-between;
+    row-gap: 1px;
+}
+
+.clicked-post-option-container > div {
+    height: 50px;
+    width: 100%;
+}
+
+.clicked-post-option-container > div > button {
+    border: none;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(39, 38, 38);
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.clicked-post-option-container > div > .first-button {
+    border-top-right-radius: 20px;
+    border-top-left-radius: 20px;
+}
+
+.clicked-post-option-container > div > .last-button {
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.post-header-account-name {
+    font-weight: bold;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.post-image-container {
+    width: 100%;
+    max-height: 468.75px;
+    display: flex;
+    justify-content: center;
+}
+
+.post-image {
+    max-width: 100%;
+    max-height: 468.75px;
+}
+
+.HORI-PAD-16 {
+    padding: 0 16px;
+}
+
+.post-operations-container {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.post-operations-left-side {
+    display: flex;
+    align-items: center;
+    column-gap: 15px;
+}
+
+.post-operations-right-side {
+    display: flex;
+    align-items: center;
+}
+
+.post-likes-count {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.post-caption-container {
+    margin-top: 5px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
+.post-caption {
+    font-size: 14px;
+    color: rgb(240, 238, 238);
+}
+
+.post-caption-more-button {
+    background-color: transparent;
+    color: rgb(168, 168, 168);
+    border: none;
+}
+
+.post-comments-count-container {
+    margin-top: 10px;
+    font-size: 13px;
+}
+
+.post-comments-count {
+    color: rgb(168, 168, 168);
+}
+
+.post-time-container {
+    margin-top: 5px;
+    margin-bottom: 15px;
+    font-size: 12px;
+}
+
+.post-time {
+    color: rgb(168, 168, 168);
+}
+
+/* -apple-system, BlinkMacSystemFont, "Segoe UI",  */
