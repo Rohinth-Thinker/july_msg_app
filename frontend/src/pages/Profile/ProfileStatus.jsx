@@ -1,11 +1,13 @@
 
-function ProfileStatus() {
+function ProfileStatus({ userStatus }) {
+
+    const { post, followers, following } = userStatus;
 
     return (
         <div className="profile-status-container" >
-            <div className="count-container"><span>4</span><span>posts</span></div>
-            <div className="count-container"><span>168</span><span>followers</span></div>
-            <div className="count-container"><span>34</span><span>following</span></div>
+            <div className="count-container"><span>{ post.length }</span><span>posts</span></div>
+            <div className="count-container"><span> { followers.length } </span><span>followers</span></div>
+            <div className="count-container"><span> {following.length} </span><span>following</span></div>
         </div>
     )
 }

@@ -1,8 +1,9 @@
 
-function ProfilePostThumbnail() {
+function ProfilePostThumbnail({post}) {
+    console.log(post);
     return (
         <div className="post-thumbnail-container">
-            <a><img className="post-thumbnail-pic" src="post2.jpg" /></a>
+            <a><img className="post-thumbnail-pic" src={`/posts/${post.postSrc}`} /></a>
         </div>
     )
 }

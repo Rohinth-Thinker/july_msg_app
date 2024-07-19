@@ -1,12 +1,8 @@
 
-import { FaUser } from "react-icons/fa";
+import { UserProfilePic } from "./components/AboutComponent";
 
 
-function ProfileAbout() {
-
-    const text = `I Am,
-A man who has Everything and Nothing
-🤥`
+function ProfileAbout({userAbout}) {
 
     return (
         <div className="profile-about-container border-frame">
@@ -14,13 +10,13 @@ A man who has Everything and Nothing
                 <div className="profile-about-pic-container">
                     <div className="story-pic-border">
                         <div className="story-profile-pic-container WH-80">
-                            <FaUser style={{color:"white", width:'72%', height:'72%'}} />
+                            <UserProfilePic pic={userAbout.profilePic} />
                         </div>
                     </div>
                 </div>
                 <div className="profile-about-change-container">
                     <div className="profile-about-account-name-container">
-                        <span className="profile-about-account-name">disturbing_heart</span>
+                        <span className="profile-about-account-name">{userAbout.username}</span>
                     </div>
                     <div className="profile-about-buttons-container">
                         <button className="profile-about-buttons">Edit Profile</button>
@@ -30,8 +26,8 @@ A man who has Everything and Nothing
             </div>
             <div className="profile-about-lower">
                 <div className="profile-about-bio-container">
-                    <span className="profile-about-bio-account-name">Rohinth Thinker</span>
-                    <pre className="profile-about-bio-text">{text}</pre>
+                    <span className="profile-about-bio-account-name">{userAbout.username}</span>
+                    <pre className="profile-about-bio-text">{userAbout.bio}</pre>
                 </div>
             </div>
         </div>

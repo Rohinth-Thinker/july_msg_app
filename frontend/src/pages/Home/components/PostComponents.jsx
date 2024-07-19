@@ -30,9 +30,11 @@ function ClickedPostOptionContainer({showOptionList}) {
     )
 }
 
-function PostImage() {
+function PostImageContainer() {
     return (
-        <img className="post-image" src="post2.jpg" />
+        <div className="post-image-container">
+            <img className="post-image" src="/posts/post2.jpg" />
+        </div>    
     )
 }
 
@@ -133,7 +135,7 @@ function PostTimeContainer() {
 }
 
 export { 
-    PostOptionContainer, ClickedPostOptionContainer, PostImage,
+    PostOptionContainer, ClickedPostOptionContainer, PostImageContainer,
     LikePostContainer, CommentPostContainer, SendPostContainer, SavePostContainer,
     PostLikesCountContainer, PostCaptionContainer, PostCommentsCountContainer, PostTimeContainer
 };

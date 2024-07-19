@@ -13,6 +13,7 @@
     position: fixed;
     top: 0;
     background-color: #000000;
+    z-index: 10;
 }
 
 .header-left-side {
@@ -272,6 +273,9 @@
 
 .post-caption-container {
     margin-top: 5px;
+}
+
+.post-caption-container.show-less {
     overflow: hidden;
     display: -webkit-box;
     -webkit-line-clamp: 3;

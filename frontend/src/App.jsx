@@ -10,7 +10,7 @@ function App() {
   return (
     <Routes>
       <Route path="/home" element={<> <HomePage /> <FooterContainer tab={"home"} /> </>} />
-      <Route path="/profile" element={<> <ProfilePage /> <FooterContainer tab={"profile"} /> </>} />
+      <Route path="/:requestUsername" element={<> <ProfilePage /> <FooterContainer tab={"profile"} /> </>} />
     </Routes>
   )
 }
