@@ -30,10 +30,10 @@ function ClickedPostOptionContainer({showOptionList}) {
     )
 }
 
-function PostImageContainer() {
+function PostImageContainer({ src }) {
     return (
         <div className="post-image-container">
-            <img className="post-image" src="/posts/post2.jpg" />
+            <img className="post-image" src={`/posts/${src}`} />
         </div>    
     )
 }
@@ -70,19 +70,16 @@ function SavePostContainer() {
     return <div onClick={handleClick}><SavePostIcon selected={selected} /></div>;
 }
 
-function PostLikesCountContainer() {
+function PostLikesCountContainer({ likes }) {
 
     return (
         <div className="post-likes-count-container HORI-PAD-16">
-            <span className="post-likes-count">50,333 likes</span>
+            <span className="post-likes-count">{`${likes.length} likes`}</span>
         </div>
     )
 }
 
-function PostCaptionContainer() {
-    const captionText = `he Avengers must stop Thanos, 
-    an intergalactic warlord, from getting his hands on all the infinity stones.
-     However, Thanos is prepared to go to any lengths to carry out his insane plan.`;
+function PostCaptionContainer({ caption }) {
 
     const [ showMore, setShowMore ] = useState(false);
     const [ showButton, setShowButton ] = useState(false);
@@ -103,7 +100,7 @@ function PostCaptionContainer() {
             <div ref={ref} className={`post-caption-container ${(!showMore) ? 'show-less' : null} HORI-PAD-16`}>
                 <span className="post-caption">
                     <b>marvelworld.in </b>
-                    {captionText}
+                    {caption}
                 </span>
             </div>
 
@@ -125,11 +122,11 @@ function PostCommentsCountContainer() {
     )
 }
 
-function PostTimeContainer() {
+function PostTimeContainer({ createdAt }) {
 
     return (
         <div className="post-time-container HORI-PAD-16">
-            <span className="post-time">2 days ago</span>
+            <span className="post-time"> {createdAt} </span>
         </div>
     )
 }

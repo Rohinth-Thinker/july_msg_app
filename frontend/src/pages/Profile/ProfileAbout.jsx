@@ -1,5 +1,5 @@
 
-import { UserProfilePic } from "./components/AboutComponent";
+import { AboutUpperRightContainer, UserProfilePic } from "./components/AboutComponent";
 
 
 function ProfileAbout({userAbout}) {
@@ -14,15 +14,7 @@ function ProfileAbout({userAbout}) {
                         </div>
                     </div>
                 </div>
-                <div className="profile-about-change-container">
-                    <div className="profile-about-account-name-container">
-                        <span className="profile-about-account-name">{userAbout.username}</span>
-                    </div>
-                    <div className="profile-about-buttons-container">
-                        <button className="profile-about-buttons">Edit Profile</button>
-                        <button className="profile-about-buttons">View archive</button>
-                    </div>
-                </div>
+                <AboutUpperRightContainer username={userAbout.username} />
             </div>
             <div className="profile-about-lower">
                 <div className="profile-about-bio-container">

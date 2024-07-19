@@ -1,13 +1,23 @@
 import { useState } from "react";
 import { FaUser } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { ClickedPostOptionContainer, CommentPostContainer, LikePostContainer, PostCaptionContainer, PostCommentsCountContainer, PostImageContainer, PostLikesCountContainer, PostOptionContainer, PostTimeContainer, SavePostContainer, SendPostContainer }
  from "./components/PostComponents";
+ import posts from "../../details/post";
+import userProfiles from "../../details/userProfile";
 
 
 function Post() {
 
     const [ showOptionList, setShowOptionList ] = useState(false);
+
+    const { postId } = useParams();
+    
+    const post = posts.find((post) => post._id === postId);
+    if (!post) return <h1>Wrong Post Id</h1>
+    const userProfile = userProfiles.find((user) => user.post.includes(postId));
+    console.log(post);
+
 
     function handleOptionClick() {
         setShowOptionList(!showOptionList);
@@ -24,7 +34,7 @@ function Post() {
                         </div>
                     </div>
                     <div className="post-header-acoount-name-container">
-                        <Link className="post-header-account-name">marvelworld.in</Link>
+                        <Link className="post-header-account-name"> { userProfile.username } </Link>
                     </div>
                 </div>
 
@@ -35,7 +45,7 @@ function Post() {
 
             </div>
 
-           <PostImageContainer />
+           <PostImageContainer src={post.postSrc} />
            
             <div className="post-operations-container HORI-PAD-16">
                 <div className="post-operations-left-side">
@@ -48,13 +58,13 @@ function Post() {
                 </div>
             </div>
 
-           <PostLikesCountContainer />
+           <PostLikesCountContainer likes={post.likes} />
 
-            <PostCaptionContainer />
+            <PostCaptionContainer caption={post.caption} />
             
-           <PostCommentsCountContainer />
+           <PostCommentsCountContainer comments={post.comments} />
            
-           <PostTimeContainer />
+           <PostTimeContainer createdAt={post.createdAt} />
         </div>
     )
 }
