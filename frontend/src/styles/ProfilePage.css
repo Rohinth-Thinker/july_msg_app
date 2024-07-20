@@ -10,6 +10,7 @@
     position: fixed;
     top: 0;
     background-color: #000000;
+    z-index: 10;
 }
 
 .profile-header-left-section {

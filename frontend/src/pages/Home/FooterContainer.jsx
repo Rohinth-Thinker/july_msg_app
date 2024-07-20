@@ -2,9 +2,13 @@
 import { FaUser } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { HomeIcon, MessengerIcon, ReelsIcon, SearchIcon } from "../../../public/icons/FooterIcon";
+import { useAuthContext } from "../../context/AuthContext";
 
 
 function FooterContainer({tab}) {
+
+    const { authUser } = useAuthContext();
+
     const profileTabStyle = {
         borderRadius : "50%",
         width:"21px",
@@ -19,7 +23,7 @@ function FooterContainer({tab}) {
             <div className="footer-icon-container"><a><SearchIcon /></a></div>
             <div className="footer-icon-container"> <a> <ReelsIcon /> </a> </div>
             <div className="footer-icon-container"> <a> <MessengerIcon /> </a> </div>
-            <div className="footer-icon-container"><Link to={"/profile"}><FaUser style={profileTabStyle} /></Link></div>
+            <div className="footer-icon-container"><Link to={`/${authUser.username}`}><FaUser style={profileTabStyle} /></Link></div>
         </div>
     )
 }

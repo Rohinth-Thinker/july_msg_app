@@ -5,7 +5,7 @@ import { AboutUpperRightContainer, UserProfilePic } from "./components/AboutComp
 function ProfileAbout({userAbout}) {
 
     return (
-        <div className="profile-about-container border-frame">
+        <div className="profile-about-container border-bottom">
             <div className="profile-about-upper">
                 <div className="profile-about-pic-container">
                     <div className="story-pic-border">

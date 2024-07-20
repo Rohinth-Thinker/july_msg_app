@@ -8,7 +8,7 @@ function ProfileTabList({ username }) {
     const { authUser } = useAuthContext();
     
     return (
-        <div className="profile-tab-list border-frame">
+        <div className="profile-tab-list border-bottom">
             <div><PostGridIcon /></div>
             <div><FeedIcon /></div>
             <div><ReelsIcon /></div>

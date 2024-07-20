@@ -3,6 +3,22 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useRef } from "react";
+import { BackButtonIcon } from "../../../../public/icons/ProfilePageIcons";
+
+function Header({ header }) {
+
+    return (
+        <div className="profile-header border-bottom">
+            <div className="profile-header-left-section" >
+                <BackButtonIcon />
+            </div>
+            <div className="profile-header-middle-section">
+                <span className="font-size-17"> {header} </span>
+            </div>
+            <div className="profile-header-right-section"></div>
+        </div>
+    )
+}
 
 function PostOptionContainer({handleOptionClick}) {
 
@@ -134,5 +150,6 @@ function PostTimeContainer({ createdAt }) {
 export { 
     PostOptionContainer, ClickedPostOptionContainer, PostImageContainer,
     LikePostContainer, CommentPostContainer, SendPostContainer, SavePostContainer,
-    PostLikesCountContainer, PostCaptionContainer, PostCommentsCountContainer, PostTimeContainer
+    PostLikesCountContainer, PostCaptionContainer, PostCommentsCountContainer, PostTimeContainer,
+    Header,
 };

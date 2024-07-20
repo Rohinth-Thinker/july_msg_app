@@ -24,48 +24,50 @@ function Post() {
     }
 
     return (
-        <div className="post-main-container">
+        <>
+            <div className="post-main-container mTop-45">
 
-            <div className="post-header-container">
-                <div className="post-header-left-side">
-                    <div className="story-pic-border">
-                        <div className="story-profile-pic-container WH-38">
-                            <FaUser style={{color:"white", width:'72%', height:'72%'}} />
+                <div className="post-header-container">
+                    <div className="post-header-left-side">
+                        <div className="story-pic-border">
+                            <div className="story-profile-pic-container WH-38">
+                                <FaUser style={{color:"white", width:'72%', height:'72%'}} />
+                            </div>
+                        </div>
+                        <div className="post-header-acoount-name-container">
+                            <Link className="post-header-account-name"> { userProfile.username } </Link>
                         </div>
                     </div>
-                    <div className="post-header-acoount-name-container">
-                        <Link className="post-header-account-name"> { userProfile.username } </Link>
+
+                    <ClickedPostOptionContainer showOptionList={showOptionList} />
+                    <div className="post-header-right-side">
+                        <PostOptionContainer handleOptionClick={handleOptionClick} />
+                    </div>
+
+                </div>
+
+            <PostImageContainer src={post.postSrc} />
+            
+                <div className="post-operations-container HORI-PAD-16">
+                    <div className="post-operations-left-side">
+                        <LikePostContainer />
+                        <CommentPostContainer />
+                        <SendPostContainer />
+                    </div>
+                    <div className="post-operations-right-side">
+                        <SavePostContainer />
                     </div>
                 </div>
 
-                <ClickedPostOptionContainer showOptionList={showOptionList} />
-                <div className="post-header-right-side">
-                    <PostOptionContainer handleOptionClick={handleOptionClick} />
-                </div>
+            <PostLikesCountContainer likes={post.likes} />
 
-            </div>
-
-           <PostImageContainer src={post.postSrc} />
-           
-            <div className="post-operations-container HORI-PAD-16">
-                <div className="post-operations-left-side">
-                    <LikePostContainer />
-                    <CommentPostContainer />
-                    <SendPostContainer />
-                </div>
-                <div className="post-operations-right-side">
-                    <SavePostContainer />
-                </div>
-            </div>
-
-           <PostLikesCountContainer likes={post.likes} />
-
-            <PostCaptionContainer caption={post.caption} />
+                <PostCaptionContainer caption={post.caption} />
+                
+            <PostCommentsCountContainer comments={post.comments} />
             
-           <PostCommentsCountContainer comments={post.comments} />
-           
-           <PostTimeContainer createdAt={post.createdAt} />
-        </div>
+            <PostTimeContainer createdAt={post.createdAt} />
+            </div>
+        </>
     )
 }
 

@@ -10,7 +10,7 @@ function ProfileHeader({username}) {
     }
 
     return (
-        <div className="profile-header">
+        <div className="profile-header border-bottom">
             <div className="profile-header-left-section" >
                 {leftSectionIcon()}
             </div>

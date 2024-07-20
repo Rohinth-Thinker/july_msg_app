@@ -162,6 +162,10 @@
     padding-bottom: 20%;
 }
 
+.mTop-45 {
+    margin-top: 45px;
+}
+
 .post-main-container {
     position: relative;
 }
