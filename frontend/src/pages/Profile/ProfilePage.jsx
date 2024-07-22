@@ -21,7 +21,7 @@ function ProfilePage() {
         <div className="profile-page">
             <ProfileHeader username={userProfile.username} />
             <ProfileAbout userAbout={{ _id, username, profilePic, bio }} />
-            <ProfileStatus userStatus={{ post, followers, following }} />
+            <ProfileStatus userStatus={{ username, post, followers, following }} />
             <ProfileTabList username={userProfile.username} />
             <ProfilePost post={post} />
         </div>

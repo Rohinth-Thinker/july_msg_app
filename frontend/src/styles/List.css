@@ -1,0 +1,67 @@
+
+.followers-container {
+    height: 100%;
+}
+
+.search-bar-container {
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 15px;
+}
+
+.search-bar {
+    background-color: rgb(38, 38, 38);
+    border: none;
+    flex: 1;
+    height: 32px;
+    padding: 0 20px;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+.search-bar:focus {
+    outline: none;
+}
+
+.intro-profile-pic-container {
+    display: flex;
+}
+
+.intro-profile-container {
+    display: flex;
+    padding: 5px 15px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.intro-profile-left-section {
+    display: flex;
+    column-gap: 10px;
+}
+
+.intro-profile-about {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.intro-profile-username {
+    font-weight: bold;
+}
+
+.intro-profile-followers-count {
+    color: rgb(145, 143, 143);
+    font-size: 13px;
+}
+
+
+.intro-profile-button > button {
+    background-color: rgb(38, 38, 38);
+    border: none;
+    padding: 8px 20px;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 15px;
+}
