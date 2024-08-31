@@ -1,0 +1,65 @@
+
+.inbox-container {
+    padding: 0 16px;
+    height: 100%;
+}
+
+
+.inbox-header-container {
+    display: flex;
+    padding: 15px 0;
+    justify-content: space-between;
+}
+
+.inbox-header-container > .left-section > .header {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.inbox-header-container > .right-section > .request-followers-link {
+    color: rgb(0, 149, 246);
+    font-size: 17px;
+}
+
+.conversation-list-container {
+    height: 95%;
+}
+
+.no-conversation-container {
+    height: 95%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.conversations {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+}
+
+.conversation-container {
+    height: 95%;
+    display: flex;
+    column-gap: 8px;
+}
+
+.aItems-start {
+    align-items: start;
+}
+
+.conversation-details-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.conversation-details-container > .username {
+    flex: 1;
+}
+
+.conversation-details-container > .new-messages {
+    width: 15px;
+}

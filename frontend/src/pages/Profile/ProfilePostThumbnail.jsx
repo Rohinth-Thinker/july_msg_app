@@ -1,10 +1,9 @@
 import { Link } from "react-router-dom";
 
-function ProfilePostThumbnail({post}) {
-    console.log(post);
+function ProfilePostThumbnail({postId, postSrc}) {
     return (
         <div className="post-thumbnail-container">
-            <Link to={`/p/${post._id}`} ><img className="post-thumbnail-pic" src={`/posts/${post.postSrc}`} /></Link>
+            <Link to={`/p/${postId}`} ><img className="post-thumbnail-pic" src={postSrc} /></Link>
         </div>
     )
 }

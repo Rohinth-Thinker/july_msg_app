@@ -3,13 +3,16 @@ import ReactDOM from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom';
 import App from './App.jsx'
 import { AuthContextProvider } from './context/AuthContext.jsx';
+import { MediaContextProvider } from './context/MediaContext.jsx';
 import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <BrowserRouter>
     <React.StrictMode>
       <AuthContextProvider>
-        <App />
+        <MediaContextProvider>
+          <App />
+        </MediaContextProvider>
       </AuthContextProvider>
     </React.StrictMode>
   </BrowserRouter>

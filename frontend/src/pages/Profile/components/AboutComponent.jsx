@@ -1,8 +1,11 @@
+import { useEffect } from "react";
+import { useState } from "react";
 import { FaUser } from "react-icons/fa";
+import { Link } from "react-router-dom";
 import { OptionIcon } from "../../../../public/icons/Post";
 import { SimilarAccountsIcon } from "../../../../public/icons/ProfilePageIcons";
 import { useAuthContext } from "../../../context/AuthContext";
-import userProfiles from "../../../details/userProfile";
+import { ShowFollowingButton } from "../../List/FollowingPage";
 
 
 
@@ -14,9 +17,9 @@ function UserProfilePic({ pic }) {
     return <img src={`/profile-pic/${pic}`} style={{width: "100%", height: "100%", borderRadius: '50%'}} />
 }
 
-function AboutUpperRightContainer({username}) {
+function AboutUpperRightContainer({username, userFollowers, userFollowing}) {
     const { authUser } = useAuthContext();
-    const isSeletedUser = (authUser.username === username) ? true : false ;
+    const isSeletedUser = authUser.username === username;
 
     if ( isSeletedUser ) {
     return (
@@ -25,35 +28,18 @@ function AboutUpperRightContainer({username}) {
                 <span className="profile-about-account-name">{username}</span>
             </div>
             <div className="profile-about-buttons-container">
-                <button className="profile-about-buttons">Edit Profile</button>
+                <Link to={"/accounts/edit"}><button className="profile-about-buttons">Edit Profile</button></Link>
                 <button className="profile-about-buttons">View archive</button>
             </div>
         </div>
     )
     }
 
+    return <OtherUsersProfiles username={username} userFollowers={userFollowers} userFollowing={userFollowing} />;
 
-    const userProfile = userProfiles.find((user) => authUser.username === user.username);
-    const isFollowing = userProfile.following.includes(username);
-    const isFollowers = userProfile.followers.includes(username);
+}
 
-    function profileButton() {
-        if ( !isFollowing && !isFollowers ) {
-            return <button className="profile-about-buttons bg-color-blue flex-1">Follow </button>;
-        }
-
-        if ( !isFollowing && isFollowers ) {
-            return <button className="profile-about-buttons bg-color-blue flex-1">Follow Back </button>;
-        }
-
-        return (
-            <>
-                <button className="profile-about-buttons">Following </button>
-                <button className="profile-about-buttons">Message</button>
-            </>
-        )
-
-    }
+function OtherUsersProfiles({ username, userFollowers, userFollowing }) {
 
     return (
         <div className="profile-about-upper-right-container">
@@ -62,11 +48,73 @@ function AboutUpperRightContainer({username}) {
                 <OptionIcon />
             </div>
             <div className="profile-about-buttons-container">
-                { profileButton() }
+                <ProfileButton username={username} userFollowers={userFollowers} userFollowing={userFollowing} />
                 <button className="profile-about-buttons pg-5-10"> <SimilarAccountsIcon /> </button>
             </div>
         </div>
     )
+
 }
 
-export { UserProfilePic, AboutUpperRightContainer }
+export { UserProfilePic, AboutUpperRightContainer };
+
+
+function ProfileButton({username, userFollowers, userFollowing}) {
+
+    const [ loading, setLoading ] = useState();
+    const { authUser } = useAuthContext();
+    const [ isFollowing, setIsFollowing ] = useState(userFollowers.includes(authUser.username));
+
+    async function handleUnfollow() {
+        setLoading(true);
+
+        const response = await fetch('http://localhost:3000/api/users/operations/unfollow', {
+            method : "PATCH",
+            body : JSON.stringify({ username, }),
+            headers : {
+                "Content-Type" : "application/json",
+            }
+        })
+
+        setLoading(false);    
+        if (response.ok) {
+            setIsFollowing(false);
+        }   
+    }
+
+    async function handleFollow() {
+        setLoading(true);
+
+        const response = await fetch('http://localhost:3000/api/users/operations/follow', {
+            method : "PATCH",
+            body : JSON.stringify({ username, }),
+            headers : {
+                "Content-Type" : "application/json",
+            }
+        })
+
+        setLoading(false);
+        if (response.ok) {
+            setIsFollowing(true);
+        }
+    }
+
+
+    if ( !isFollowing) {
+        const isFollowBack = userFollowing.includes(authUser.username);
+        return ( 
+            <button onClick={handleFollow} className="profile-about-buttons bg-color-blue flex-1">
+                { loading ? 'Loading...' : isFollowBack ? 'Follow Back' : 'Follow' }
+            </button>
+        )
+    }
+
+    return (
+        <>
+            <button onClick={handleUnfollow} className="profile-about-buttons">
+                { loading ? 'Loading...' : 'Following' }
+            </button>
+            <button className="profile-about-buttons">Message</button>
+        </>
+    )
+}

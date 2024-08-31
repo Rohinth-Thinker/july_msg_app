@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const dotenv = require('dotenv').config();
+const { GridFSBucket } = require('mongodb');
 
 async function connectToDb(dbName) {
     try {
@@ -12,4 +13,10 @@ async function connectToDb(dbName) {
     }
 }
 
-module.exports = connectToDb;
+function createBucket(bucketName) {
+    const bucket = new GridFSBucket(mongoose.connection.db, { bucketName });
+    return bucket;
+}
+
+
+module.exports = { connectToDb, createBucket };

@@ -1,5 +1,5 @@
 import { CommentPostIcon, LikePostIcon, OptionIcon, SavePostIcon, SendPostIcon } from "../../../../public/icons/Post";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useRef } from "react";
@@ -7,9 +7,15 @@ import { BackButtonIcon } from "../../../../public/icons/ProfilePageIcons";
 
 function Header({ header }) {
 
+    const navigate = useNavigate();
+
+    function navigateToPreviousPage() {
+        navigate(-1);
+    }
+
     return (
         <div className="profile-header border-bottom">
-            <div className="profile-header-left-section" >
+            <div className="profile-header-left-section" onClick={navigateToPreviousPage} >
                 <BackButtonIcon />
             </div>
             <div className="profile-header-middle-section">
@@ -49,7 +55,7 @@ function ClickedPostOptionContainer({showOptionList}) {
 function PostImageContainer({ src }) {
     return (
         <div className="post-image-container">
-            <img className="post-image" src={`/posts/${src}`} />
+            <img className="post-image" src={src} />
         </div>    
     )
 }
@@ -95,7 +101,7 @@ function PostLikesCountContainer({ likes }) {
     )
 }
 
-function PostCaptionContainer({ caption }) {
+function PostCaptionContainer({ username, caption }) {
 
     const [ showMore, setShowMore ] = useState(false);
     const [ showButton, setShowButton ] = useState(false);
@@ -115,8 +121,8 @@ function PostCaptionContainer({ caption }) {
         <>
             <div ref={ref} className={`post-caption-container ${(!showMore) ? 'show-less' : null} HORI-PAD-16`}>
                 <span className="post-caption">
-                    <b>marvelworld.in </b>
-                    {caption}
+                    <b> { username } </b>
+                    { caption }
                 </span>
             </div>
 

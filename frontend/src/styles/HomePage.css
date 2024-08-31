@@ -142,9 +142,19 @@
     height: 80px;
 }
 
-.story-profile-pic-container.WH {
+.story-profile-pic-container.WH-50 {
     width: 50px;
     height: 50px;
+}
+
+.story-profile-pic-container.WH-35 {
+    width: 35px;
+    height: 35px;
+}
+
+.story-profile-pic-container.WH-28 {
+    width: 28px;
+    height: 28px;
 }
 
 .story-profile-pic-container {

@@ -1,31 +1,49 @@
-import { useState } from "react";
+import { forwardRef, useState } from "react";
 import { FaUser } from "react-icons/fa";
 import { Link, useParams } from "react-router-dom";
 import { ClickedPostOptionContainer, CommentPostContainer, LikePostContainer, PostCaptionContainer, PostCommentsCountContainer, PostImageContainer, PostLikesCountContainer, PostOptionContainer, PostTimeContainer, SavePostContainer, SendPostContainer }
- from "./components/PostComponents";
- import posts from "../../details/post";
-import userProfiles from "../../details/userProfile";
+ from "../../pages/Home/components/PostComponents";
+import { useEffect } from "react";
+import fetchPost from "../../components/fetchPost";
+import readPost from "../../components/readPost";
 
 
-function Post() {
+function Post({ p}, ref) {
 
     const [ showOptionList, setShowOptionList ] = useState(false);
+    const [ post, setPost ] = useState(p)
+    // const [ loading, setLoading ] = useState(false);
 
-    const { postId } = useParams();
+    useEffect(() => {
+        async function fetchPostAndRead() {
+            // setLoading(true);
+            
+            // const postDetails = await fetchPost(postId);
+            // if (!postDetails) {
+            //     setLoading(false);
+            //     return;
+            // }
+
+            const postSrc = await readPost(post.postFileId);
+            // console.log(postSrc);
+
+            // setLoading(false);
+
+            setPost({ ...post, postSrc });
+        }
+
+        fetchPostAndRead()
+    }, [p])
     
-    const post = posts.find((post) => post._id === postId);
-    if (!post) return <h1>Wrong Post Id</h1>
-    const userProfile = userProfiles.find((user) => user.post.includes(postId));
-    console.log(post);
-
+    // if (loading) return <div> <h1>LOADING...</h1> </div>
+    if (!post) return <div> <h1>Invalid URL</h1> </div>
 
     function handleOptionClick() {
         setShowOptionList(!showOptionList);
     }
 
     return (
-        <>
-            <div className="post-main-container mTop-45">
+            <div ref={ref} className="post-main-container" >
 
                 <div className="post-header-container">
                     <div className="post-header-left-side">
@@ -35,7 +53,7 @@ function Post() {
                             </div>
                         </div>
                         <div className="post-header-acoount-name-container">
-                            <Link className="post-header-account-name"> { userProfile.username } </Link>
+                            <Link className="post-header-account-name"> { post.username } </Link>
                         </div>
                     </div>
 
@@ -59,16 +77,15 @@ function Post() {
                     </div>
                 </div>
 
-            <PostLikesCountContainer likes={post.likes} />
+            <PostLikesCountContainer likes={post.postLikes} />
 
-                <PostCaptionContainer caption={post.caption} />
+                <PostCaptionContainer username={post.username} caption={post.postCaption} />
                 
-            <PostCommentsCountContainer comments={post.comments} />
+            <PostCommentsCountContainer comments={post.postComments} />
             
             <PostTimeContainer createdAt={post.createdAt} />
             </div>
-        </>
     )
 }
 
-export default Post;
+export default forwardRef(Post);

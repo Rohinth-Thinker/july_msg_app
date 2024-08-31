@@ -1,4 +1,4 @@
-const { findUser, createUser, findAndVerifyUser } = require("../db/dbFunctions");
+const { findUser, createUser, findAndVerifyUser, createUserProfile } = require("../db/dbFunctions");
 const setCookie = require("../utils/setCookie");
 const { generateToken } = require("../utils/tokenFunctions");
 
@@ -16,12 +16,18 @@ async function signup(req, res) {
             return res.status(409).json({error : "username is aldready exists"});
         }
 
-        const newUser = await createUser(username, password);
+        // const newUser = await createUser(username, password);
+        // const userProfile = await createUserProfile(username);
+
+        const [ newUser, userProfile ] = await Promise.all([
+            createUser(username, password),
+            createUserProfile(username),
+        ]);
         
         const token = generateToken(newUser._id);
         setCookie(res, token);
         
-        res.status(200).json({msg : "signed up successfully..."});
+        res.status(200).json({msg : "signed up successfully...", userProfile});
 
     } catch(err) {
         console.log(`At signup Controller, ${err.name} : ${err.message}`);

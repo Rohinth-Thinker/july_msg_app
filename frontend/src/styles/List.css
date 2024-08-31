@@ -56,11 +56,10 @@
     font-size: 13px;
 }
 
-
-.intro-profile-button > button {
-    background-color: rgb(38, 38, 38);
+.intro-profile-button-container > button {
+    width: 90px;
+    padding: 8px;
     border: none;
-    padding: 8px 20px;
     border-radius: 10px;
     font-weight: bold;
     font-size: 15px;

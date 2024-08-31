@@ -20,9 +20,9 @@ function FooterContainer({tab}) {
     return (
         <div className="footer-container">
             <div className="footer-icon-container"><Link to={"/home"}><HomeIcon selected={tab === 'home'} /></Link></div>
-            <div className="footer-icon-container"><a><SearchIcon /></a></div>
+            <div className="footer-icon-container"><Link to={"/explore"}><SearchIcon selected={tab === 'explore'} /></Link></div>
             <div className="footer-icon-container"> <a> <ReelsIcon /> </a> </div>
-            <div className="footer-icon-container"> <a> <MessengerIcon /> </a> </div>
+            <div className="footer-icon-container"> <Link to={"/direct/inbox"} > <MessengerIcon /> </Link> </div>
             <div className="footer-icon-container"><Link to={`/${authUser.username}`}><FaUser style={profileTabStyle} /></Link></div>
         </div>
     )

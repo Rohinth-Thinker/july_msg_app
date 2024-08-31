@@ -1,0 +1,69 @@
+
+.center-element {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.middle-section > .text-new-message {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.right-section > .next-button {
+    font-size: 16px;
+    font-weight: bold;
+    color: rgb(0, 149, 246);
+}
+
+
+.new-chat-search-container {
+    display: flex;
+    height: 43px;
+    padding: 0 16px;
+}
+
+.new-chat-search-container > .text-to-container {
+    display: flex;
+    align-items: center;
+}
+
+.new-chat-search-container > .text-to-container > .text-to {
+    font-weight: bold;
+    font-size: 17px;
+}
+
+.new-chat-search-container > .search-container {
+    display: flex;
+    align-items: center;
+    flex: 1;
+}
+
+.new-chat-search-container > .search-container > input {
+    height: 100%;
+    flex: 1;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    padding: 0 20px;
+    font-size: 16px;
+}
+
+.search-container > input::placeholder {
+    color: rgba(245, 245, 245, 0.685);
+}
+
+.new-chat-search-container > .selected-users {
+    background-color: blue;
+    width: 600px;
+    /* display: flex;
+    align-items: center; */
+    /* overflow-x: auto; */
+}
+
+div.rounded-checkbox {
+    width: 25px;
+    height: 25px;
+    border: 1px solid white;
+    border-radius: 50%;
+}

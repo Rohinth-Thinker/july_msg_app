@@ -29,7 +29,9 @@
 }
 
 .profile-header-right-section {
-    width: 55px;
+    width: 60px;
+    display: flex;
+    align-items: center;
 }
 
 .profile-about-container {
@@ -150,4 +152,110 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+}
+
+.edit-profile-container {
+    margin-top: 45px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+}
+
+.change-photo-main-container {
+    padding: 26px 12px;
+}
+
+.change-photo-container {
+    background-color: rgb(38, 38, 38);
+    height: 88px;
+    border-radius: 20px;
+    display: flex;
+}
+
+.change-photo-container > .photo-container {
+    height: 100%;
+    width: 88px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.change-photo-container > .photo-details-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 16px;
+    row-gap: 2px;
+}
+
+.photo-details-container > button {
+    background-color: transparent;
+    border: none;
+    text-align: left;
+    color: rgb(0, 149, 246);
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.change-website-main-container {
+    padding: 8px 12px;
+}
+
+.change-website-container > .website-form {
+    display: flex;
+    flex-direction: column;
+    font-size: 18px;
+    font-weight: bold;
+    row-gap: 15px;
+}
+
+.website-form > .website-input {
+    padding: 4px 15px;
+    height: 40px;
+    border-radius: 10px;
+    border: none;
+    background-color: rgb(38, 38, 38);
+    font-size: 18px;
+}
+
+.website-input::placeholder {
+    color: rgb(167, 164, 164);
+}
+
+.change-bio-main-container {
+    padding: 20px 12px;
+}
+
+.change-bio-container {
+    display: flex;
+    flex-direction: column;
+    row-gap: 15px;
+    font-weight: bold;
+    font-size: 17px;
+}
+
+.change-bio-container > .bio-textarea {
+    color: white;
+    background-color: transparent;
+    width: 100%;
+    height: 70px;
+    border-radius: 10px;
+    padding: 5px;
+    font-size: 16px;
+}
+
+.submit-button-container {
+    display: flex;
+    justify-content: end;
+    padding: 10px 12px;
+}
+
+.submit-button-container > button {
+    Background-color: rgb(0, 149, 246);
+    border: none;
+    padding: 13px 100px;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 16px;
 }

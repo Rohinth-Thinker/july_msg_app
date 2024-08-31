@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { IoIosArrowDown } from "react-icons/io";
 import { FaRegHeart, FaRegPlusSquare } from "react-icons/fa";
@@ -6,6 +6,8 @@ import { FavouritesPostsIcon, FollowingPostsIcon, StoryIcon } from '../../../../
 import { useState } from 'react';
 import { PostGridIcon } from '../../../../public/icons/ProfilePageIcons';
 import { useEffect } from 'react';
+import { useRef } from 'react';
+import { useMediaContext } from '../../../context/MediaContext';
 
 
 function SelectivePostDropDown() {
@@ -66,6 +68,9 @@ function SelectivePostDropDown() {
 function CreateContainer () {
 
     const [ showSelection, setShowSelection ] = useState(false);
+    const inputRef = useRef(null);
+    const { setMediaFile } = useMediaContext();
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (showSelection) {
@@ -89,14 +94,27 @@ function CreateContainer () {
     function handleOutsideScroll() {
         setShowSelection(false);
     }
+
+    function handleCreatePostLink(e) {
+        e.preventDefault();
+        inputRef.current.click();
+    }
+
+    function handleFileChange(e) {
+        const media = e.target.files[0];
+        if (!media) return;
+        setMediaFile(media);
+        navigate('/create/styles');
+    }
     
 
     return (
         <>
             <div className={`selection-container parent ${!showSelection ? 'display-none' : null}`}>
 
+                <input ref={inputRef} type='file' accept='image/*, video/*' onChange={handleFileChange} name='media' className='display-none' />
                 <div className='selection-option WH-S'> 
-                    <Link>
+                    <Link name='createPostLink' onClick={handleCreatePostLink}>
                         <span>Post</span>
                         <PostGridIcon />
                     </Link>

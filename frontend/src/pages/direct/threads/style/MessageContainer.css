@@ -1,0 +1,142 @@
+
+.message-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.message-container-header {
+    display: flex;
+    height: 44px;
+}
+
+.message-container-header > .left-section {
+    width: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.message-container-header > .middle-section {
+    flex: 1;
+}
+
+.message-container-header > .right-section {
+    width: 56px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.message-to-which-user {
+    display: flex;
+    height: 100%;
+    column-gap: 8px;
+}
+
+.message-to-which-user > .user-profile {
+    display: flex;
+    align-items: center;
+}
+
+.message-to-which-user > .user-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.message-to-which-user > .user-details > .username {
+    font-weight: bold;
+    font-size: 17px;
+}
+
+.message-to-which-user > .user-details > .user-active-status {
+    font-size: 12px;
+}
+
+.messages {
+    flex: 1;
+}
+
+.message-input-container {
+    /* background-color: lightpink; */
+    height: 78px;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+}
+
+.message-input-container > div {
+    flex: 1;
+    border: 1px solid rgb(54, 54, 54);
+    display: flex;
+    height: 46px;
+    border-radius: 40px;
+    padding: 0 20px;
+}
+
+.message-input-container > div > form {
+    flex: 1;
+    /* background-color: tomato; */
+    width: 100%;
+    height: 100%;
+}
+
+.message-input-container > div > form > input {
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    font-size: 17px;
+}
+
+.message-input-container > div > .message-image-attachment-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.message-container-header > .middle-section > .sub-middle-section {
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.header-text-details {
+    font-size: 21px;
+    font-weight: bold;
+}
+
+.message-details-members-container {
+    flex: 1;
+    padding: 0 16px;
+}
+
+.message-details-members-container > .members-container {
+    padding: 15px 0;
+}
+
+.members-container > .text-members {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.message-details-operations-container {
+    display: flex;
+    flex-direction: column;
+    height: 152px;
+    padding: 5px 16px;
+}
+
+.message-details-operations-container > .operation-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    /* background-color: tomato; */
+}
+
+.message-details-operations-container > .operation-container > button {
+    color: rgb(237, 73, 86);
+    font-size: 17px;
+}

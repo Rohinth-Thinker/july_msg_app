@@ -29,6 +29,15 @@ A man who has Everything and Nothing
         followers : ['rohinth_thinker'],
         following : ['rohinth_thinker'],
     },
+    {
+        _id : 'profile(4)',
+        username : 'disturbing_mind',
+        profilePic : '',
+        bio : '',
+        post : [],
+        followers : ['rohinth_thinker'],
+        following : ['rohinth_thinker'],
+    },
 ];
 
 
