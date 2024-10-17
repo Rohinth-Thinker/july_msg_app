@@ -2,10 +2,17 @@ import {CreateContainer, NotificationContainer, SelectivePostDropDown} from "./c
 
 
 function HeaderContainer() {
+
+    async function handleLogoClick() {
+        localStorage.removeItem('user');
+        await fetch('/api/auth/logout');
+        location.href = '/home';
+    }
+
     return (
      <div className="header-container border-frame">
          <div className="header-left-side">
-            <div className="logo-title-container">
+            <div className="logo-title-container" onClick={ handleLogoClick }>
                 <img src="instagram.svg" className="logo-title" />
             </div>
            <SelectivePostDropDown />

@@ -1,9 +1,9 @@
 
-function setCookie(res, token, maxAge = 60 * 60 * 1000) {
+function setCookie(res, token, maxAge = 15 * 24 * 60 * 60 * 1000) {
     res.cookie('token', token, {
         maxAge,
         httpOnly : true,
-        sameSite : "strict",
+        sameSite : "Strict",
     })
 
     return true;

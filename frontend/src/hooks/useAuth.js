@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import validateInputs from "../components/validateInputs";
 
-function useSignup() {
+function useAuth(endpoint) {
     const [ loading, setLoading ] = useState(false);
 
-    const signup = async (inputs) => {
+    const authenticate = async (inputs) => {
         try {
             setLoading(true);
 
@@ -14,7 +14,7 @@ function useSignup() {
                 return validation;
             }
             
-            const response  = await fetch("http://localhost:3000/api/auth/signup", {
+            const response = await fetch(`/api/auth/${endpoint}`, {
                 method : "POST",
                 body : JSON.stringify(inputs),
                 headers : {
@@ -34,8 +34,8 @@ function useSignup() {
         }
     }
 
-    return [ loading, signup ];
+    return [ loading, authenticate ];
 }
 
 
-export default useSignup;
+export default useAuth;

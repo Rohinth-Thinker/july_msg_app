@@ -21,6 +21,7 @@
     display: flex;
     height: 43px;
     padding: 0 16px;
+    margin-bottom: 18px;
 }
 
 .new-chat-search-container > .text-to-container {
@@ -33,15 +34,18 @@
     font-size: 17px;
 }
 
-.new-chat-search-container > .search-container {
+.new-chat-search-container > .scroll-container {
     display: flex;
     align-items: center;
-    flex: 1;
+    overflow-x: auto;
 }
 
-.new-chat-search-container > .search-container > input {
+.new-chat-search-container > .scroll-container > .search-container {
     height: 100%;
-    flex: 1;
+}
+
+.new-chat-search-container > .scroll-container > .search-container > input {
+    height: 100%;
     background-color: transparent;
     border: none;
     outline: none;
@@ -53,17 +57,41 @@
     color: rgba(245, 245, 245, 0.685);
 }
 
-.new-chat-search-container > .selected-users {
-    background-color: blue;
-    width: 600px;
-    /* display: flex;
-    align-items: center; */
-    /* overflow-x: auto; */
-}
-
 div.rounded-checkbox {
     width: 25px;
     height: 25px;
     border: 1px solid white;
     border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+div.rounded-checkbox.selected {
+    background-color: white;
+}
+
+.selected-users-container {
+    display: flex;
+    column-gap: 8px;
+}
+
+div.selected-user {
+    background-color : rgb(0, 149, 246);
+    padding: 2px 8px;
+    border-radius: 25px;
+    display: flex;
+    align-items: center;
+    column-gap: 3px;
+}
+
+
+div.selected-user > span {
+    color: rgb(224, 241, 255);
+    font-weight: bold;
+}
+
+div.selected-user > .wrong-icon {
+    display: flex;
+    align-items: center;
 }

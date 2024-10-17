@@ -12,14 +12,17 @@ const postsSchema = mongoose.Schema({
     postCaption : String,
 
     postLikes : {
-        type : [ mongoose.Schema.ObjectId ],
+        type : [ String ],
         default : [],
     },
 
-    postComments : {
-        type : [ mongoose.Schema.ObjectId ],
-        default : [],
-    },
+    postComments : [
+        {
+            type : mongoose.Schema.Types.ObjectId,
+            ref : "commentList",
+            default : []
+        }
+    ]
 
 }, { timestamps : true })
 

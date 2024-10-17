@@ -3,28 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useRef } from "react";
-import { BackButtonIcon } from "../../../../public/icons/ProfilePageIcons";
-
-function Header({ header }) {
-
-    const navigate = useNavigate();
-
-    function navigateToPreviousPage() {
-        navigate(-1);
-    }
-
-    return (
-        <div className="profile-header border-bottom">
-            <div className="profile-header-left-section" onClick={navigateToPreviousPage} >
-                <BackButtonIcon />
-            </div>
-            <div className="profile-header-middle-section">
-                <span className="font-size-17"> {header} </span>
-            </div>
-            <div className="profile-header-right-section"></div>
-        </div>
-    )
-}
+import { useAuthContext } from "../../../context/AuthContext";
 
 function PostOptionContainer({handleOptionClick}) {
 
@@ -60,20 +39,19 @@ function PostImageContainer({ src }) {
     )
 }
 
-function LikePostContainer() {
-
-    const [ selected, setSelected ] = useState(false);
-
-    function handleClick() {
-        setSelected(!selected);
-    }
-    
-    return <div onClick={handleClick}><LikePostIcon selected={selected} /></div>;
+function LikePostContainer({isSelected, handleLikes}) {
+        
+    return <div onClick={handleLikes}><LikePostIcon selected={isSelected} /></div>;
 }
 
-function CommentPostContainer() {
+function CommentPostContainer({ postId }) {
+    const navigate = useNavigate();
 
-    return <div><CommentPostIcon /></div>;
+    function handleClick() {
+        navigate(`/p/${postId}/comments`);
+    }
+
+    return <div onClick={handleClick}><CommentPostIcon /></div>;
 }
 
 function SendPostContainer() {
@@ -128,7 +106,7 @@ function PostCaptionContainer({ username, caption }) {
 
             { showButton &&
                 <div className="post-caption-more-button-container HORI-PAD-16">
-                    <button onClick={handleShowMore} className="post-caption-more-button">more...</button>
+                    <button onClick={handleShowMore} className="post-caption-more-button">more</button>
                 </div>
             }   
         </>
@@ -157,5 +135,5 @@ export {
     PostOptionContainer, ClickedPostOptionContainer, PostImageContainer,
     LikePostContainer, CommentPostContainer, SendPostContainer, SavePostContainer,
     PostLikesCountContainer, PostCaptionContainer, PostCommentsCountContainer, PostTimeContainer,
-    Header,
+    
 };

@@ -1,14 +1,12 @@
 import { FaUser } from "react-icons/fa";
+import { GenerateProfilePhoto, GenerateStoryStyle } from "../../comp/ProfileGenerator";
 
 function Story() {
     return (
         <div className="story-container">
-            <div className="story-pic-border">
-                <div className="story-profile-pic-container WH-56">
-                    <FaUser style={{color:"white", width:'72%', height:'72%'}} />
-                    {/* <img src="profile-pic.jpg" style={{width: "100%", height: "100%", borderRadius: '50%'}} /> */}
-                </div>
-            </div>
+            <GenerateStoryStyle storyType={'unseen'}>
+                <GenerateProfilePhoto size={56} />
+            </GenerateStoryStyle>
 
             <span className="story-username">Your story</span>
         </div>

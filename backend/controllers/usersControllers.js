@@ -1,4 +1,4 @@
-const { findUserProfile, getUserProfiles, getUserFollowProfiles, doUnfollow, doFollow, doRemove } = require("../db/dbFunctions");
+const { findUserProfile, getPaginationUserProfiles, getUserFollowProfiles, doUnfollow, doFollow, doRemove } = require("../db/dbFunctions");
 
 async function getUserProfile(req, res) {
     const { username } = req.params;
@@ -18,10 +18,13 @@ async function getUserProfile(req, res) {
 async function searchUserProfile(req, res) {
     try {
         const { search } = req.query;
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 3;
+
         if (!search) return res.status(200).json(null);
 
-        const userProfiles = await getUserProfiles(search);
-        res.status(200).json(userProfiles);
+        const response = await getPaginationUserProfiles(search, (page - 1) * limit, limit);
+        res.status(200).json({ profiles : response.results, total : response.total });
     } catch(err) {
         console.log(`At searchUserProfile controller, ${err.name} : ${err.message}`);
         res.status(400).json({error : 'an error occured'});
@@ -30,14 +33,18 @@ async function searchUserProfile(req, res) {
 
 async function getFollowersProfile(req, res) {
     try {
+        const search = req.query.search || '';
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 3;
+
         const { username } = req.params;
         const userProfile = await findUserProfile(username);
         if (!userProfile) {
             return res.status(400).json({error : 'Invalid Url'});
         }
         
-        const userFollowProfiles = await getUserFollowProfiles(userProfile.userFollowers);
-        res.status(200).json(userFollowProfiles);
+        const results = await getUserFollowProfiles(userProfile.userFollowers, (page - 1) * limit, limit, search);
+        res.status(200).json(results);
     } catch(err) {
         console.log(`At getFollowersProfile Controller, ${err.name} : ${err.message}`);
         res.status(400).json({error : 'an error occurred, try again later'});
@@ -46,14 +53,18 @@ async function getFollowersProfile(req, res) {
 
 async function getFollowingProfile(req, res) {
     try {
+        const search = req.query.search || '';
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 3;
+
         const { username } = req.params;
         const userProfile = await findUserProfile(username);
         if (!userProfile) {
             return res.status(400).json({error : 'Invalid Url'});
         }
         
-        const userFollowProfiles = await getUserFollowProfiles(userProfile.userFollowing);
-        res.status(200).json(userFollowProfiles);
+        const results = await getUserFollowProfiles(userProfile.userFollowing, (page - 1) * limit, limit, search);
+        res.status(200).json(results);
     } catch(err) {
         console.log(`At getFollowingProfile Controller, ${err.name} : ${err.message}`);
         res.status(400).json({error : 'an error occurred, try again later'});

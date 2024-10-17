@@ -1,21 +1,93 @@
+import { useEffect } from "react";
 import { useState } from "react";
+import { useParams } from "react-router-dom";
+import LoadingIndicator from "../../../comp/LoadingIndicator";
+import { useAuthContext } from "../../../context/AuthContext";
+import { useSocketContext } from "../../../context/SocketContext";
 import { MessageContainerHeader, MessageDetailsHeader, MessageDetailsMembersContainer, MessageDetailsOperationsContainer, MessageInputContainer, Messages } from "./components/MessageContainerComponents";
 import './style/MessageContainer.css';
 
 function MessageContainer() {
     const [ switchPage, setSwitchPage ] = useState(true);
+    const { conversationId } = useParams();
+    const [ conversation, setConversation ] = useState(null);
+    const [ messages, setMessages ] = useState([])
+    const [ membersProfile, setMembersProfiles ] = useState(null);
+    const { authUser } = useAuthContext();
+    const { socket } = useSocketContext();
+
+    useEffect(() => {
+        if (socket) {
+
+            const handleNewMessage = (newMessage) => {
+                setMessages((prevMessages) => [...prevMessages, newMessage]);
+            }
+            socket.on("newMessage", handleNewMessage);
+
+            return () => {
+                socket.off("newMessage", handleNewMessage);
+            }
+        }
+    }, [ socket ])
+
+    useEffect(() => {
+        async function fetchConversationMessages() {
+            const response = await fetch(`/api/conversation/get/${conversationId}`);
+            const result = await response.json();
+            if (!result.status) {
+                return;
+            }
+
+            const conversation = result.conversation;
+            setConversation(conversation);
+            setMessages(conversation.messages);
+        }
+        fetchConversationMessages();
+    }, [ conversationId ])
+
+    let members;
+    useEffect(() => {
+        async function fetchUserProfile() {
+            if (!members) return;
+
+            const profiles = await Promise.all(members.map(async (username) => {
+                const response = await fetch(`/api/users/${username}`);
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch profile for ${username}`);
+                }
+
+                const profile = await response.json();
+                return profile;
+            }))
+
+            setMembersProfiles(profiles);           
+        }
+
+        if (members) fetchUserProfile();
+    }, [ conversation ])
+
+    if (conversation?.conversation.length === 2) {
+        members = conversation?.conversation.filter((username) => username !== authUser.username);
+    } else {
+        members = conversation?.conversation;
+    }
 
     function handleSwitchPage(result) {
         setSwitchPage(result);
+    }
+
+    function addMessages(details) {
+        const message = { ...details, username : authUser.username };
+        setMessages(p => [...p, message]);
     }
 
     function showPage() {
         if (switchPage) {
             return (
                 <>
-                    <MessageContainerHeader handleSwitchPage={handleSwitchPage} />
-                    <Messages />
-                    <MessageInputContainer />
+                    <MessageContainerHeader userProfile={membersProfile[0]} handleSwitchPage={handleSwitchPage} />
+                    <Messages messages={messages} />
+                    <MessageInputContainer conversationId={conversationId} addMessages={addMessages} />
                 </>
             )
         }
@@ -23,11 +95,13 @@ function MessageContainer() {
         return (
             <>
                 <MessageDetailsHeader handleSwitchPage={handleSwitchPage} />
-                <MessageDetailsMembersContainer />
+                <MessageDetailsMembersContainer  userProfile={membersProfile[0]} />
                 <MessageDetailsOperationsContainer />
             </>
         )
     }
+
+    if (!membersProfile) return <LoadingIndicator />
 
     return (
         <div className="message-container">

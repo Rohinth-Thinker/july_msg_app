@@ -3,7 +3,9 @@ const { createBucket } = require('./database');
 const posts = require('./models/postsModel');
 const userList = require('./models/userListModels');
 const userProfile = require('./models/userProfileModels');
-
+const conversationList = require('./models/conversationListModel');
+const messageList = require('./models/messageListModels');
+const commentList = require('./models/commentListModel');
 
 async function findUser(username) {
     try {
@@ -121,22 +123,33 @@ function readPostById(id) {
     }
 }
 
-async function getUserProfiles(name) {
+async function getPaginationUserProfiles(name, startIndex, endIndex) {
     try {
         const regex = new RegExp(`^${name}`, 'i');
-        const profiles = await userProfile.find({ username : regex });
-        return profiles;
+        // const profiles = await userProfile.find({ username : regex });
+
+        const [ results, total ] = await Promise.all([
+            userProfile.find({ username : regex }).skip(startIndex).limit(endIndex),
+            userProfile.find({ username : regex }).countDocuments().exec(),//here need to check that exec is must or not
+        ])
+
+        // console.log(results, total);
+        return { results, total };
     } catch(err) {
         throw err;
     }
 }
 
-async function getUserFollowProfiles(usernames) {
+async function getUserFollowProfiles(usernames, startIndex, endIndex, searchText) {
     try {
-        const userFollowProfiles = await userProfile.find({
-            username : {$in : usernames}
-        })
-        return userFollowProfiles;
+        const regex = new RegExp(`^${searchText}`, 'i');
+
+        const [ profiles, total ] = await Promise.all([
+            userProfile.find({ username : { $in : usernames, $regex : regex } }).skip(startIndex).limit(endIndex),
+            userProfile.find({ username : { $in : usernames, $regex : regex } }).countDocuments(),
+        ])
+        
+        return { profiles, total };
     } catch(err) {
         throw err;
     }
@@ -182,13 +195,11 @@ async function doRemove(username, otherUser) {
     }
 }
 
-async function paginationResults(startIndex, endIndex) {
+async function paginationPostsResults(startIndex, endIndex) {
     try {
-        // const results = await posts.find().skip(startIndex).limit(endIndex);
-        // const TotalPost = await posts.countDocuments().exec();
         const [ results, totalPost ] = await Promise.all([
             posts.find().skip(startIndex).limit(endIndex),
-            posts.countDocuments().exec(),
+            posts.countDocuments().exec(), //here need to check that exec is must or not
         ])
 
         return { results, totalPost };
@@ -197,8 +208,191 @@ async function paginationResults(startIndex, endIndex) {
     }
 }
 
+async function getConversation(sender, receivers) {
+    try {
+        const conversation = await conversationList.findOne({
+            conversation : { $all : [ sender, ...receivers ] } 
+        }).select("-messages");
+        return conversation;
+    } catch (err) {
+        throw err;
+    }
+}
+
+async function createConversation(sender, receivers) {
+    try {
+        const conversation = await conversationList.create({ conversation : [ sender, ...receivers ] });
+        return conversation;
+    } catch(err) {
+        throw err;
+    }
+}
+
+async function getConversationsById(id) {
+    try {
+        if (!ObjectId.isValid(id)) {
+            return { status : false, statusCode : 400, msg : 'Invalid url' };
+        }
+
+        const conversation = await conversationList.findById(id).populate("messages");
+        return conversation;
+    } catch(err) {
+        throw err;
+    }
+}
+
+async function addMessage(username, id, message) {
+    try {
+        if (!ObjectId.isValid(id)) {
+            return { status : false, statusCode : 400, msg : 'Invalid url' };
+        }
+
+        const conversation = await conversationList.findById(id);
+
+        const newMessage = await messageList.create({
+            username, message
+        })
+
+        conversation.messages.push(newMessage._id);
+        await conversation.save();
+        
+        return { status : true, newMessage, members: conversation.conversation };
+
+    } catch(err) {
+        throw err;
+    }
+}
+
+async function getAllConversationByUsername(username) {
+    try {
+        const conversations = await conversationList.find({conversation : {$in : username}}).select("-messages");
+        return conversations
+    } catch(err) {
+        throw err;
+    }
+}
+
+async function addPostLikes(postId, username) {
+    try {
+        if (!ObjectId.isValid(postId)) {
+            return { status : false, statusCode : 400, msg : 'Invalid Post ID' };
+        }
+        
+        const post = await posts.updateOne({_id : postId}, { $push : { postLikes : username } });
+        if (post.matchedCount === 0) {
+            return { status : false, statusCode : 400, msg : 'Invalid Post ID' }
+        }
+
+        return { status : true, post };
+
+    } catch(err) {
+        throw err;
+    }
+}
+
+async function removePostLikes(postId, username) {
+    try {
+        if (!ObjectId.isValid(postId)) {
+            return { status : false, statusCode : 400, msg : 'Invalid Post ID' };
+        }
+
+        const post = await posts.updateOne({_id : postId}, { $pull : { postLikes : username } });
+        if (post.matchedCount === 0) {
+            return { status : false, statusCode : 400, msg : 'Invalid Post ID' }
+        }
+
+        return { status : true, post };
+    
+    } catch(err) {
+        throw err;
+    }
+}
+
+async function addComments(username, postId, commentText) {
+    try {
+        const post = await posts.findById(postId);
+        if (!post) {
+            return { status : false, statusCode : 400, msg : 'Invalid Post Id' };
+        }
+        const { postComments } = post;
+
+        const newComment = await commentList.create({ username, text : commentText });
+        postComments.push(newComment._id);
+        await post.save()
+        
+        return {status : true, newComment };
+    } catch(err) {
+        throw err;
+    }
+}
+
+async function addReplyComments(parentId, username, commentText) {
+    try {
+        if (!ObjectId.isValid(parentId)) {
+            return { status : false, statusCode : 400, msg : 'Invalid Post ID' };
+        }
+
+        const parentComment = await commentList.findById(parentId);
+        if(!parentComment) {
+            return { status : false, statusCode : 400, msg : 'Invalid comment' };
+        }
+        const { replies } = parentComment;
+
+        const newComment = await commentList.create({ username, text : commentText, parentId });
+        replies.push(newComment._id);
+        await parentComment.save();
+
+        return { status : true, newComment }
+
+    } catch(err) {
+        throw err;
+    }
+}
+
+async function getAllComments(postId) {
+    try {
+        if (!ObjectId.isValid(postId)) {
+            return { status : false, statusCode : 400, msg : 'Invalid Post ID' };
+        }
+
+        const result = await posts.findById(postId).select("postComments username postCaption").populate("postComments");
+        if (!result) {
+            return { status : false, statusCode : 400, msg : "Invalid Post Id" };
+        }
+        const { username, postCaption, postComments } = result;
+        
+        return { status : true, comments : postComments, post : {username, postCaption} };
+        
+    } catch(err) {
+        throw err;
+    }
+}
+
+async function getRepliesCommentByCommentId(id) {
+    try {
+        if (!ObjectId.isValid(id)) {
+            return { status : false, statusCode : 400, msg : 'Invalid Post ID' };
+        }
+
+        const comment = await commentList.findById(id).select("replies").populate("replies");
+        if(!comment) {
+            return { status : false, statusCode : 400, msg : 'Invalid comment' };
+        }
+        const { replies } = comment;
+        
+        return { status : true, replies };
+
+    } catch(err) {
+        throw err;
+    }
+}
+
 module.exports = {
     findUser, createUser, findAndVerifyUser, createUserProfile, createNewPost, appendPostId,
-    findUserProfile, getPostById, readPostById, getUserProfiles, getUserFollowProfiles,
-    doUnfollow, doFollow, doRemove, paginationResults
+    findUserProfile, getPostById, readPostById, getPaginationUserProfiles, getUserFollowProfiles,
+    doUnfollow, doFollow, doRemove, paginationPostsResults,
+    getConversation, createConversation, getConversationsById, getAllConversationByUsername,
+    addMessage,
+    addPostLikes, removePostLikes,
+    addComments, addReplyComments, getAllComments, getRepliesCommentByCommentId
 };

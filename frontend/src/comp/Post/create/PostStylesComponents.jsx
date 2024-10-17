@@ -29,21 +29,21 @@ function PostStylesHeader({ header }) {
 
 function PostStylesMainContainer({ media }) {
 
-    const src = URL.createObjectURL(media);
-
-    function showMedia() {
-        if (media.type.startsWith('image/')) {
-            return <img src={src} className="create-post-image" />;
-        } else {
-            return <VideoComponent src={src} />;
-        }
-    }
+    const src = URL.createObjectURL(media)
 
     return (
         <div className="create-post-image-container" >
-            { showMedia() }
+            { showMedia(media, src) }
         </div>
     )
+}
+
+function showMedia(media, src) {
+    if (media.type.startsWith('image/')) {
+        return <img src={src} className="create-post-image" />;
+    } else {
+        return <VideoComponent src={src} />;
+    }
 }
 
 function VideoComponent({ src }) {

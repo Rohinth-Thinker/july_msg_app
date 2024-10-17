@@ -2,33 +2,35 @@
 import SearchBar from "./SearchBar";
 import '../../styles/List.css';
 import IntroProfile from "./IntroProfile";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAuthContext } from "../../context/AuthContext";
 import { ShowFollowingButton } from "./FollowingPage";
+import useFetchUsersByPage from "../../hooks/useFetchUsersByPage";
+import useIntersectionObserver from "../../hooks/useIntersectionObserver";
+import LoadingIndicator from "../../comp/LoadingIndicator";
 
 function FollowersPage() {
+    
+    const { requestUsername } = useParams();
+    const fetchUrl = `/api/users/${requestUsername}/followers`;
 
     const [ searchText, setSearchText ] = useState('');
-    const [ followerList, setFollowerList ] = useState(null);
-    const [ error, setError ] = useState('');
-    const { requestUsername } = useParams();
+    const [ page, setPage ] = useState(1);
+    const [ list, loading, hasMore ] = useFetchUsersByPage(searchText, page, setPageNumber, fetchUrl);
+    const lastElementRef = useRef();
+    useIntersectionObserver([list], lastElementRef, incrementPage, 0.5);
 
-    useEffect(() => {
-        async function fetchUserFollowersList() {
-            const response = await fetch(`http://localhost:3000/api/users/${requestUsername}/followers`);
-            const userFollowers = await response.json();
+    function setPageNumber(number) {
+        setPage(number);
+    }
 
-            if (userFollowers.error) {
-                setError(userFollowers.error);
-                return;
-            }
-
-            setFollowerList(userFollowers);
+    function incrementPage() {
+        if (hasMore) {
+            console.log('clicked');
+            setPage(page + 1);
         }
-
-        fetchUserFollowersList();
-    }, [ requestUsername ])
+    }
 
     function handleChange(e) {
         setSearchText(e.target.value);
@@ -36,27 +38,21 @@ function FollowersPage() {
 
     function introProfile() {
 
-        if (!followerList) return <h1>LOADING...</h1>;
-
-        if ( followerList.length <= 0 ) return <h1>NO Followers yet</h1>;
-
-        let list;
-        if ( !searchText ) list = followerList;
-        else {
-            list = followerList.filter((follower) => follower.username.toLowerCase().startsWith(searchText.toLowerCase()));
-        }
+        if(!list) return null;
 
         if ( list.length <= 0 ) return <h1>No results found</h1>
 
-        const intro = list.map((follower) => {
+        const intro = list.map((follower, index) => {
             const { _id, username, userFollowers, userFollowing, userProfilePic } = follower;
             
             return (
-                <IntroProfile userProfile={{username, userFollowers, userProfilePic}} key={_id} > 
-                    <div className="intro-profile-button-container">
-                        <ShowButton username={username} userFollowers={userFollowers} userFollowing={userFollowing} requestUsername={requestUsername} />
-                    </div> 
-                </IntroProfile>
+                <div ref={ (list.length === index + 1) ? lastElementRef : null } key={_id}>
+                    <IntroProfile userProfile={{username, userFollowers, userProfilePic}} > 
+                        <div className="intro-profile-button-container">
+                            <ShowButton username={username} userFollowers={userFollowers} userFollowing={userFollowing} requestUsername={requestUsername} />
+                        </div> 
+                    </IntroProfile>
+                </div>
             )
         })
 
@@ -64,13 +60,13 @@ function FollowersPage() {
     }
 
 
-    if (error) return <h1 className="mTop-45"> { error } </h1>;
-
     return (
         <div className="followers-container mTop-45">
-            <SearchBar searchText={searchText} handleChange={handleChange} />
-              
-            { introProfile() }
+            <div className="pBottom-100">
+                <SearchBar searchText={searchText} handleChange={handleChange} />
+                { introProfile() }
+                { loading && <LoadingIndicator /> }
+            </div>
         </div>
     )
 }
@@ -88,7 +84,7 @@ function ShowButton({ username, userFollowers, requestUsername}) {
 
         setLoading(true);
         
-        const response = await fetch('http://localhost:3000/api/users/operations/remove', {
+        const response = await fetch('/api/users/operations/remove', {
             method : "PATCH",
             body : JSON.stringify({ username, }),
             headers : {

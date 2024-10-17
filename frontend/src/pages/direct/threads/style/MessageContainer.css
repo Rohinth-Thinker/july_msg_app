@@ -56,6 +56,11 @@
 
 .messages {
     flex: 1;
+    padding: 0 17px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 3px;
+    overflow-y: auto;
 }
 
 .message-input-container {
@@ -89,6 +94,12 @@
     border: none;
     outline: none;
     font-size: 17px;
+}
+
+.message-input-container > div > button {
+    color: rgb(0, 149, 246);
+    font-weight: bold;
+    font-size: 16px;
 }
 
 .message-input-container > div > .message-image-attachment-container {
@@ -139,4 +150,33 @@
 .message-details-operations-container > .operation-container > button {
     color: rgb(237, 73, 86);
     font-size: 17px;
+}
+
+.message {
+    width: 100%;
+    display: flex;
+}
+
+.message.sender {
+    justify-content: end;
+}
+
+.message > div {
+    background-color: rgb(38, 38, 38);
+    max-width: 250px;
+    padding: 6px 10px;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+}
+
+.message > div.sender {
+    background-color: rgb(55, 151, 240);
+    justify-content: end;
+}
+
+.message > div > span {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
 }

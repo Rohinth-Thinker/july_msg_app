@@ -1,42 +1,41 @@
+import { useEffect } from "react";
 import { forwardRef, useState } from "react";
 import { FaUser } from "react-icons/fa";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useAuthContext } from "../../context/AuthContext";
 import { ClickedPostOptionContainer, CommentPostContainer, LikePostContainer, PostCaptionContainer, PostCommentsCountContainer, PostImageContainer, PostLikesCountContainer, PostOptionContainer, PostTimeContainer, SavePostContainer, SendPostContainer }
  from "../../pages/Home/components/PostComponents";
-import { useEffect } from "react";
-import fetchPost from "../../components/fetchPost";
-import readPost from "../../components/readPost";
 
 
-function Post({ p}, ref) {
+function Post({ postProps }, ref) {
 
     const [ showOptionList, setShowOptionList ] = useState(false);
-    const [ post, setPost ] = useState(p)
-    // const [ loading, setLoading ] = useState(false);
+    const [ post, setPost ] = useState(postProps || null);
+    const { authUser } = useAuthContext();
 
-    useEffect(() => {
-        async function fetchPostAndRead() {
-            // setLoading(true);
-            
-            // const postDetails = await fetchPost(postId);
-            // if (!postDetails) {
-            //     setLoading(false);
-            //     return;
-            // }
-
-            const postSrc = await readPost(post.postFileId);
-            // console.log(postSrc);
-
-            // setLoading(false);
-
-            setPost({ ...post, postSrc });
+    async function handleLikes() {
+        let postLikes = post.postLikes;
+        let isLike;
+        if (postLikes.includes(authUser.username)) {
+            postLikes = postLikes.filter((username) => username !== authUser.username);
+            isLike = false;
+        } else {
+            postLikes.push(authUser.username)
+            isLike = true;
         }
-
-        fetchPostAndRead()
-    }, [p])
+        
+        const response = await fetch('/api/post/handle/interactions/like', {
+            method : "PATCH",
+            body : JSON.stringify({ postId : post._id, isLike }),
+            headers : {
+                "Content-Type" : "application/json",
+            }
+        })
+        
+        setPost({...post, postLikes});
+    }
     
-    // if (loading) return <div> <h1>LOADING...</h1> </div>
-    if (!post) return <div> <h1>Invalid URL</h1> </div>
+    if (!post) return;
 
     function handleOptionClick() {
         setShowOptionList(!showOptionList);
@@ -68,8 +67,9 @@ function Post({ p}, ref) {
             
                 <div className="post-operations-container HORI-PAD-16">
                     <div className="post-operations-left-side">
-                        <LikePostContainer />
-                        <CommentPostContainer />
+                        <LikePostContainer isSelected={post.postLikes.includes(authUser.username)} 
+                            handleLikes={handleLikes} />
+                        <CommentPostContainer postId={post._id} />
                         <SendPostContainer />
                     </div>
                     <div className="post-operations-right-side">
@@ -79,7 +79,7 @@ function Post({ p}, ref) {
 
             <PostLikesCountContainer likes={post.postLikes} />
 
-                <PostCaptionContainer username={post.username} caption={post.postCaption} />
+            <PostCaptionContainer username={post.username} caption={post.postCaption} />
                 
             <PostCommentsCountContainer comments={post.postComments} />
             

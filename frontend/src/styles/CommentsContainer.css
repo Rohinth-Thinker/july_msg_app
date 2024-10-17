@@ -1,0 +1,141 @@
+.comments-container {
+    padding: 0 8px;
+    position: relative;
+}
+
+
+.comments-caption-container {
+    display: flex;
+}
+
+.comments-caption-container > .left-section {
+    padding-top: 5px;
+}
+
+.pBottom {
+    padding-bottom: 15px;
+}
+
+.comments {
+    overflow-y: auto;
+    margin-top: 25px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    padding-bottom: 200px;
+}
+
+.comment {
+    display: flex;
+    align-items: center;
+}
+
+.comment.replied-comment {
+    margin-left: 55px;
+}
+
+.comment > .left-section {
+    display: flex;
+}
+
+.comment > .middle-section {
+    flex: 1;
+}
+
+.comment-details {
+    margin-top: 5px;
+    display: flex;
+    column-gap: 18px;
+    margin-left: 15px;
+}
+
+.comment-details > div > span, .text-view-replies-container > span {
+    font-size: 11px;
+    font-weight: bold;
+    color: rgb(168, 168, 168);
+}
+
+.comment > .right-section {
+    display: flex;
+    justify-content: center;
+    width: 30px;
+}
+
+.text-view-replies-container {
+    margin-left: 58px;
+    margin-top: 15px;
+}
+
+.replying-status-container {
+    background-color: #000000;
+    position: fixed;
+    bottom: 130px;
+    width: 96%;
+}
+
+.replying-status-container > div {
+    height: 35px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.comments-input-main-container {
+    background-color: #000000;
+    position: fixed;
+    bottom: 50px;
+    width: 96%;
+}
+
+.comments-input-container {
+    width: 100%;
+    height: 80px;
+    display: flex;
+}
+
+.comments-input-container > .left-section {
+    display: flex;
+    align-items: center;
+}
+
+.comments-input-container > .middle-section {
+    padding-top: 15px;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+/* .comments-input-container > .middle-section > .replying-container {
+    background-color: blue; */
+    /* text-align: center;
+    font-size: 14px;
+    display: flex;
+    justify-content: space-between;
+} */
+
+.comments-input-container > .middle-section > textarea {
+    width: 100%;
+    max-height: 100%;
+    background-color: transparent;
+    color: white;
+    border: none;
+    outline: none;
+    resize: none;
+    padding: 0 10px;
+    font-size: 16px;
+}
+
+.comments-input-container > .right-section {
+    width: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.comments-input-container > .right-section > button {
+    color: rgb(0, 149, 246);
+    font-weight: bold;
+    font-size: 16px;
+}

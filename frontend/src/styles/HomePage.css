@@ -117,12 +117,12 @@
     row-gap: 5px;
 }
 
-.story-pic-border {
+.story-pic-border.unseen {
     border: 2px solid blue;
     border-radius: 50%;
 }
 
-.story-pic-border-seen {
+.story-pic-border.seen {
     border: 2px solid gray;
     border-radius: 50%;
 }

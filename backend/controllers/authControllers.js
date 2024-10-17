@@ -15,16 +15,13 @@ async function signup(req, res) {
         if (user) {
             return res.status(409).json({error : "username is aldready exists"});
         }
-
-        // const newUser = await createUser(username, password);
-        // const userProfile = await createUserProfile(username);
-
+        
         const [ newUser, userProfile ] = await Promise.all([
             createUser(username, password),
             createUserProfile(username),
         ]);
-        
-        const token = generateToken(newUser._id);
+
+        const token = generateToken(username);
         setCookie(res, token);
         
         res.status(200).json({msg : "signed up successfully...", userProfile});
@@ -49,7 +46,7 @@ async function login(req, res) {
             return res.status(user.statusCode).json({error : user.msg});
         }
 
-        const token = generateToken(user.id);
+        const token = generateToken(username);
         setCookie(res, token);
 
         res.status(200).json({msg : "logged in successfully..."});
@@ -78,7 +75,7 @@ function validateInputs(inputs) {
         }
     }
 
-    if ( inputs.password.length < 4 ) {
+    if ( inputs.password.length <= 4 ) {
         return { status : false, statusCode : 422, msg : `password must be maximum than 4 characters` };
     }
 

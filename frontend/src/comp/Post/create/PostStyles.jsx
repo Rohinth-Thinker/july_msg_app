@@ -6,7 +6,10 @@ import { PostStylesMainContainer, PostStylesHeader, PostStylesFooter } from './P
 function PostStyles() {
 
     const { mediaFile } = useMediaContext();
-    if(!mediaFile) return window.location.href = '/home';
+    if(!mediaFile) {
+        window.location.href = '/home';
+        return;
+    }
 
     return (
         <div className='post-styles-main-container'>

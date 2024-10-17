@@ -63,3 +63,8 @@
 .conversation-details-container > .new-messages {
     width: 15px;
 }
+
+.conversation-details-container > .new-messages > .dot {
+    fill : rgb(0, 149, 246);
+}
+

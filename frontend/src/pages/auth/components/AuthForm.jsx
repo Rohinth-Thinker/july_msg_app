@@ -1,29 +1,33 @@
 import { useState } from "react";
-import useSignup from "../../hooks/useSignup";
+import { useAuthContext } from "../../../context/AuthContext";
 
-
-function Form() {
+function AuthForm({ onSubmit, loading, placeholder, buttonText }) {
 
     const [ inputs, setInputs ] = useState({
         username : '',
         password : '',
     })
-    const [ loading, signup ] = useSignup();
+
+    const { setAuthUser } = useAuthContext();
+
 
     async function handleSubmit(e) {
         e.preventDefault();
         try {
-            const response = await signup(inputs);
+            const response = await onSubmit(inputs);
             if (!response.status) {
-                console.log(response.msg);
-                return;
+                return console.log(response.msg);
             }
 
             console.log(inputs);
+
+            setAuthUser({username : inputs.username});
+            localStorage.setItem('user', JSON.stringify({username : inputs.username}));
             setInputs({username : '', password : ''});
+
             return;
 
-        } catch(err) {
+        } catch (err) {
             console.log(`${err.name} : ${err.message}`);
         }
     }
@@ -32,13 +36,13 @@ function Form() {
         <form className="auth-form" onSubmit={handleSubmit} >
             <div className="container-form-elements">
 
-                <input type="text" placeholder="Create your Username..."  onChange={(e) => {
+                <input type="text" placeholder={placeholder.username}  onChange={(e) => {
                     setInputs({...inputs, username : e.target.value})}} value={inputs.username} />
 
-                <input type="text" placeholder="Create your Password ..." onChange={(e) => {
+                <input type="text" placeholder={placeholder.password} onChange={(e) => {
                     setInputs({...inputs, password : e.target.value})}} value={inputs.password} />
 
-                <button type="submit" disabled={loading}>Signup</button>
+                <button type="submit" disabled={loading}>{ buttonText }</button>
 
             </div>
         </form>
@@ -46,4 +50,4 @@ function Form() {
 }
 
 
-export default Form;
+export default AuthForm;

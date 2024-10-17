@@ -1,6 +1,6 @@
 
 import '../../styles/HomePage.css'
-import FooterContainer from './FooterContainer';
+import FooterContainer from '../../comp/footer/FooterContainer';
 import HeaderContainer from './HeaderContainer';
 import MainContainer from './MainContainer';
 import StoryContainer from './StoryContainer';

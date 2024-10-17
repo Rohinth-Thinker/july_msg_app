@@ -2,8 +2,11 @@ import { BackButtonIcon } from "../../../../../public/icons/ProfilePageIcons";
 import { ImageAttachmentIcon, MessageInfoIcon } from "../../../../../public/icons/DirectPageIcon";
 import { FaUser } from "react-icons/fa";
 import IntroProfile from "../../../List/IntroProfile";
+import { useAuthContext } from "../../../../context/AuthContext";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-function MessageContainerHeader({ handleSwitchPage }) {
+function MessageContainerHeader({ userProfile, handleSwitchPage }) {
 
     return (
         <div className="message-container-header border-bottom">
@@ -11,7 +14,7 @@ function MessageContainerHeader({ handleSwitchPage }) {
                 <HeaderBackButton />
             </div>
             <div className="middle-section" >
-                <MessageToWhichUser />
+                <MessageToWhichUser userProfile={userProfile} />
             </div>
             <div onClick={() => handleSwitchPage(false)} className="right-section" >
                 <MessageInfoButton />
@@ -22,7 +25,13 @@ function MessageContainerHeader({ handleSwitchPage }) {
 
 function HeaderBackButton() {
 
-    return <BackButtonIcon />
+    const navigate = useNavigate();
+
+    function handleClick() {
+        navigate('/direct/inbox');
+    }
+
+    return <div onClick={handleClick}> <BackButtonIcon /> </div>;
 }
 
 function MessageInfoButton() {
@@ -30,7 +39,7 @@ function MessageInfoButton() {
     return <MessageInfoIcon />
 }
 
-function MessageToWhichUser() {
+function MessageToWhichUser({ userProfile }) {
     
     return (
         <div className="message-to-which-user">
@@ -45,7 +54,7 @@ function MessageToWhichUser() {
 
             <div className="user-details">
                 <div className="username">
-                    <span>Barath Krishnan</span>
+                    <span>{ userProfile.username }</span>
                 </div>
 
                 <div className="user-active-status">
@@ -56,25 +65,69 @@ function MessageToWhichUser() {
     )
 }
 
-function Messages() {
+function Messages({ messages }) {
+
+    function showMessages() {
+        return messages.map((message) => <Message message={message} key={message._id} />)
+    }
 
     return (
-        <div className="messages"></div>
+        <div className="messages">
+            { showMessages() }
+        </div>
     )
 }
 
-function MessageInputContainer() {
+function Message({ message }) {
+    const { authUser } = useAuthContext();
+    const isSender = authUser.username === message.username;
+
+    return (
+        <div className={`message ${isSender ? 'sender': ''}`}>
+            <div className={isSender ? 'sender' : ''}>
+                <span>{ message.message }</span>
+            </div>
+        </div>
+    )
+}
+
+function MessageInputContainer({ conversationId, addMessages }) {
+    const [ text, setText ] = useState('');
+    const isEmpty = !text || !(text.replaceAll(' ', ''));
+
+    async function handleSubmit(e) {
+        e.preventDefault();
+
+        const response = await fetch('/api/conversation/messages/send', {
+            method : "POST",
+            body : JSON.stringify({ conversationId, message : text }),
+            headers : {
+                "Content-Type" : "application/json",
+            }
+        })
+
+        if (!response.ok) return;
+
+        const messageId = await response.json();
+        addMessages({ _id : messageId, message : text });
+
+        setText('');
+    }
     
     return (
         <div className="message-input-container">
             <div>
-                <form>
-                    <input placeholder="Message..." />
+                <form onSubmit={handleSubmit} >
+                    <input value={text} onChange={(e) => setText(e.target.value)} placeholder="Message..." />
                 </form>
 
-                <div className="message-image-attachment-container">
-                    <ImageAttachmentIcon />
-                </div>
+                { isEmpty ?
+                    <div className="message-image-attachment-container" >
+                        <ImageAttachmentIcon />
+                    </div>
+                        :
+                    <button className="default-button-style" onClick={handleSubmit} > Send </button>
+                }
             </div>
         </div>
     )
@@ -96,7 +149,7 @@ function MessageDetailsHeader({ handleSwitchPage }) {
     )
 }
 
-function MessageDetailsMembersContainer() {
+function MessageDetailsMembersContainer({ userProfile }) {
     
     return (
         <div className="message-details-members-container border-bottom">
@@ -104,7 +157,7 @@ function MessageDetailsMembersContainer() {
                 <span className="text-members">Members</span>
             </div>
 
-            <IntroProfile userProfile={{username : "disturbing_heart", userFollowers : [1, 2]}} />
+            <IntroProfile userProfile={userProfile} />
         </div>
     )
 }

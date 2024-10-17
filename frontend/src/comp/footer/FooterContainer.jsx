@@ -23,7 +23,7 @@ function FooterContainer({tab}) {
             <div className="footer-icon-container"><Link to={"/explore"}><SearchIcon selected={tab === 'explore'} /></Link></div>
             <div className="footer-icon-container"> <a> <ReelsIcon /> </a> </div>
             <div className="footer-icon-container"> <Link to={"/direct/inbox"} > <MessengerIcon /> </Link> </div>
-            <div className="footer-icon-container"><Link to={`/${authUser.username}`}><FaUser style={profileTabStyle} /></Link></div>
+            <div className="footer-icon-container"><Link to={`/${authUser?.username}`}><FaUser style={profileTabStyle} /></Link></div>
         </div>
     )
 }

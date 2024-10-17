@@ -8,7 +8,7 @@ function validateInputs(inputs) {
         }
     }
 
-    if ( inputs.password.length < 4 ) {
+    if ( inputs.password.length <= 4 ) {
         return { status : false, msg : `password must be maximum than 4 characters` };
     }
 

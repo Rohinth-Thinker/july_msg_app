@@ -11,7 +11,7 @@ function useUploadPost() {
             formData.append('media', file);
             formData.append('bucketName', 'uploadPost');
 
-            const uploadResponse = await fetch("http://localhost:3000/api/upload/post", {
+            const uploadResponse = await fetch("/api/upload/post", {
                 method : "POST",
                 body : formData,
             });
@@ -22,7 +22,7 @@ function useUploadPost() {
 
             const { fileId } = uploadResponseResult;
 
-            const storePostResponse = await fetch("http://localhost:3000/api/post/store", {
+            const storePostResponse = await fetch("/api/post/store", {
                 method : "POST",
                 body : JSON.stringify({ fileId, caption }),
                 headers : {

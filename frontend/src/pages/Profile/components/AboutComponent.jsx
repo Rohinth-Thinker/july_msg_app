@@ -68,7 +68,7 @@ function ProfileButton({username, userFollowers, userFollowing}) {
     async function handleUnfollow() {
         setLoading(true);
 
-        const response = await fetch('http://localhost:3000/api/users/operations/unfollow', {
+        const response = await fetch('/api/users/operations/unfollow', {
             method : "PATCH",
             body : JSON.stringify({ username, }),
             headers : {
@@ -85,7 +85,7 @@ function ProfileButton({username, userFollowers, userFollowing}) {
     async function handleFollow() {
         setLoading(true);
 
-        const response = await fetch('http://localhost:3000/api/users/operations/follow', {
+        const response = await fetch('/api/users/operations/follow', {
             method : "PATCH",
             body : JSON.stringify({ username, }),
             headers : {

@@ -7,6 +7,7 @@ import ProfilePost from "./ProfilePost";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { useState } from "react";
+import LoadingIndicator from "../../comp/LoadingIndicator";
 
 function ProfilePage() {
     const [ userProfile, setUserProfile ] = useState(null);
@@ -17,7 +18,7 @@ function ProfilePage() {
         async function fetchUserProfile() {
             setLoading(true);
 
-            const response = await fetch(`http://localhost:3000/api/users/${requestUsername}`);
+            const response = await fetch(`/api/users/${requestUsername}`);
             const profile = await response.json();
             setLoading(false);
 
@@ -30,12 +31,12 @@ function ProfilePage() {
         if (requestUsername) fetchUserProfile();
     }, [ requestUsername ])
     
-    if (loading) return <div style={{textAlign : 'center'}}>Loading...</div>
+    if (loading) return <LoadingIndicator />
 
     if (!userProfile) {
         return <div>SORRY WRONG URL</div>
     }
-    const { _id, username, userProfilePic, userBio, userPost, userFollowers, userFollowing } = userProfile;
+    const { username, userProfilePic, userBio, userPost, userFollowers, userFollowing } = userProfile;
 
     return (
         <div className="profile-page">
@@ -43,7 +44,7 @@ function ProfilePage() {
             <ProfileAbout userAbout={{ username, userProfilePic, userBio, userFollowers, userFollowing }} />
             <ProfileStatus userStatus={{ username, userPost, userFollowers, userFollowing }} />
             <ProfileTabList username={username} />
-            <ProfilePost post={['post(1)', 'post(2)']} postIds={userPost} />
+            <ProfilePost postIds={userPost} />
         </div>
     )
 }
