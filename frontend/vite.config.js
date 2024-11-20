@@ -7,7 +7,7 @@ export default defineConfig({
   server : {
     host : '0.0.0.0',
     proxy : {
-      "/api" :"https://july-msg-app.onrender.com/"
+      "/api" :"https://localhost:5173/",
     }
   }
 })

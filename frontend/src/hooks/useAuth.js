@@ -5,7 +5,6 @@ function useAuth(endpoint) {
     const [ loading, setLoading ] = useState(false);
 
     const authenticate = async (inputs) => {
-        try {
             setLoading(true);
 
             const validation = validateInputs(inputs);
@@ -13,7 +12,7 @@ function useAuth(endpoint) {
                 setLoading(false);
                 return validation;
             }
-            
+            console.log(`/api/auth/${endpoint}`);
             const response = await fetch(`/api/auth/${endpoint}`, {
                 method : "POST",
                 body : JSON.stringify(inputs),
@@ -28,10 +27,7 @@ function useAuth(endpoint) {
             }
 
             return { status : true };
-        } catch(err) {
-            setLoading(false);
-            throw err;
-        }
+       
     }
 
     return [ loading, authenticate ];

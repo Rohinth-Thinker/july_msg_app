@@ -37,4 +37,5 @@ app.get('/', (req, res) => {
 server.listen(PORT, async () => {
     const db = await connectToDb('july_msg_app');
     console.log(`Server is listerning on port ${PORT}`);
+    console.log('cors is implemented')
 })
