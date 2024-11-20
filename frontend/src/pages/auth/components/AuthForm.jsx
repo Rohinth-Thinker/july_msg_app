@@ -13,6 +13,7 @@ function AuthForm({ onSubmit, loading, placeholder, buttonText }) {
 
     async function handleSubmit(e) {
         e.preventDefault();
+        console.log("Its updated");
             const response = await onSubmit(inputs);
             if (!response.status) {
                 return console.log(response.msg);
