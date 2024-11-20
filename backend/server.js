@@ -29,6 +29,10 @@ app.use('/api/post', postRoutes);
 app.use('/api/users', usersRoutes);
 app.use('/api/conversation', conversationRoutes);
 
+app.get('/', (req, res) => {
+    res.send("HEY, is it working...")
+})
+
 
 server.listen(PORT, async () => {
     const db = await connectToDb('july_msg_app');
