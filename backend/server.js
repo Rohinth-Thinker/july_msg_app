@@ -30,7 +30,7 @@ app.use('/api/users', usersRoutes);
 app.use('/api/conversation', conversationRoutes);
 
 app.get('/', (req, res) => {
-    res.send("HEY, is it working...")
+    res.status(200).json({ msg : "HEY, is it working..." });
 })
 
 
