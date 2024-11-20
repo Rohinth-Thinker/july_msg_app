@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { useRef } from "react";
 import { useAuthContext } from "../../../context/AuthContext";
+import { VideoComponent } from "../../../comp/Post/create/PostStylesComponents";
 
 function PostOptionContainer({handleOptionClick}) {
 
@@ -32,6 +33,15 @@ function ClickedPostOptionContainer({showOptionList}) {
 }
 
 function PostImageContainer({ src }) {
+    
+   
+    // if (!video.canPlayType('video')) {
+    //     return (
+    //         <div className="post-image-container">
+    //             <video src={src} autoPlay muted></video>;
+    //         </div> 
+    //     )
+    // }
     return (
         <div className="post-image-container">
             <img className="post-image" src={src} />

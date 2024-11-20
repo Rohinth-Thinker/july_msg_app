@@ -11,8 +11,10 @@ function MessageContainer() {
     const [ switchPage, setSwitchPage ] = useState(true);
     const { conversationId } = useParams();
     const [ conversation, setConversation ] = useState(null);
-    const [ messages, setMessages ] = useState([])
-    const [ membersProfile, setMembersProfiles ] = useState(null);
+    const [ messages, setMessages ] = useState([]);
+    const [ error, setError ] = useState(null);
+    const [ membersProfiles, setmembersProfiless ] = useState(null);
+    const [ userProfile, setUserProfile ] = useState(null);
     const { authUser } = useAuthContext();
     const { socket } = useSocketContext();
 
@@ -34,7 +36,8 @@ function MessageContainer() {
         async function fetchConversationMessages() {
             const response = await fetch(`/api/conversation/get/${conversationId}`);
             const result = await response.json();
-            if (!result.status) {
+            if (!response.ok) {
+                setError(result.error);
                 return;
             }
 
@@ -45,7 +48,6 @@ function MessageContainer() {
         fetchConversationMessages();
     }, [ conversationId ])
 
-    let members;
     useEffect(() => {
         async function fetchUserProfile() {
             if (!members) return;
@@ -60,17 +62,24 @@ function MessageContainer() {
                 return profile;
             }))
 
-            setMembersProfiles(profiles);           
+            const up = profiles.find((profile) => profile.username === authUser.username);
+            const mp = profiles.filter((profile) => profile.username !== authUser.username);
+
+            setmembersProfiless(mp);
+            setUserProfile(up);        
         }
 
         if (members) fetchUserProfile();
     }, [ conversation ])
 
-    if (conversation?.conversation.length === 2) {
-        members = conversation?.conversation.filter((username) => username !== authUser.username);
-    } else {
-        members = conversation?.conversation;
-    }
+    // if (conversation?.conversation.length === 2) {
+    //     members = conversation?.conversation.filter((username) => username !== authUser.username);
+    // } else {
+    //     members = conversation?.conversation;
+    // }
+    let members = conversation?.conversation;
+
+    // let members = conversation?.conversation.filter((username) => username !== authUser.username);
 
     function handleSwitchPage(result) {
         setSwitchPage(result);
@@ -85,7 +94,7 @@ function MessageContainer() {
         if (switchPage) {
             return (
                 <>
-                    <MessageContainerHeader userProfile={membersProfile[0]} handleSwitchPage={handleSwitchPage} />
+                    <MessageContainerHeader membersProfiles={membersProfiles} handleSwitchPage={handleSwitchPage} />
                     <Messages messages={messages} />
                     <MessageInputContainer conversationId={conversationId} addMessages={addMessages} />
                 </>
@@ -95,13 +104,14 @@ function MessageContainer() {
         return (
             <>
                 <MessageDetailsHeader handleSwitchPage={handleSwitchPage} />
-                <MessageDetailsMembersContainer  userProfile={membersProfile[0]} />
+                <MessageDetailsMembersContainer  userProfile={userProfile} membersProfiles={membersProfiles} />
                 <MessageDetailsOperationsContainer />
             </>
         )
     }
 
-    if (!membersProfile) return <LoadingIndicator />
+    if (error) return <h1> {error} </h1>;
+    if (!membersProfiles) return <LoadingIndicator />;
 
     return (
         <div className="message-container">

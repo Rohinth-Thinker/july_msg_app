@@ -9,7 +9,7 @@ const uploadRoutes = require('./routes/uploadRoutes');
 const postRoutes = require('./routes/postRoutes');
 const usersRoutes = require('./routes/usersRoutes');
 const conversationRoutes = require('./routes/conversationRoutes');
-const { app, server } = require('./socket/socket')
+const { app, server } = require('./socket/socket');
 
 const PORT = process.env.PORT_NUM;
 
@@ -20,6 +20,8 @@ app.use(cookieParser());
 //     origin : [ "http://localhost:5173", "http://192.168.188.136:5173", ],
 //     credentials : true,
 // }))
+
+app.use('/api/store/media/profile', express.static('/home/rohinth/python_program_trail/practice/store/media/profile'));
 
 app.use('/api/auth', authRoutes);
 app.use('/api/upload', uploadRoutes);

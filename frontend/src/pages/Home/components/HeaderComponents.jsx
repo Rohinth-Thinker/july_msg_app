@@ -69,6 +69,7 @@ function CreateContainer () {
 
     const [ showSelection, setShowSelection ] = useState(false);
     const inputRef = useRef(null);
+    const [ createMethod, setCreateMethod ] = useState(null);
     const { setMediaFile } = useMediaContext();
     const navigate = useNavigate();
 
@@ -95,16 +96,30 @@ function CreateContainer () {
         setShowSelection(false);
     }
 
-    function handleCreatePostLink(e) {
+    function handleCreateLink(e, method) {
         e.preventDefault();
+        setCreateMethod(method);
         inputRef.current.click();
     }
 
     function handleFileChange(e) {
+        if (createMethod === 'post') return handleFileChangeForPost(e);
+        else return handleFileChangeForStory(e);
+    }
+
+    function handleFileChangeForPost(e) {
         const media = e.target.files[0];
         if (!media) return;
         setMediaFile(media);
         navigate('/create/styles');
+    }
+
+    function handleFileChangeForStory(e) {
+        const media = e.target.files[0];
+        if (!media) return;
+        setMediaFile(media);
+        console.log("story",media);
+        navigate('/create/story');
     }
     
 
@@ -114,14 +129,14 @@ function CreateContainer () {
 
                 <input ref={inputRef} type='file' accept='image/*, video/*' onChange={handleFileChange} name='media' className='display-none' />
                 <div className='selection-option WH-S'> 
-                    <Link name='createPostLink' onClick={handleCreatePostLink}>
+                    <Link name='createPostLink' onClick={(e) => handleCreateLink(e, 'post')}>
                         <span>Post</span>
                         <PostGridIcon />
                     </Link>
                 </div>
 
                 <div className='selection-option WH-S'>
-                    <Link>
+                    <Link onClick={(e) => handleCreateLink(e, 'story')}>
                         <span>Story</span>
                         <StoryIcon />
                     </Link>

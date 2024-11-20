@@ -5,6 +5,10 @@ import { BackButtonIcon } from "../../../../../public/icons/ProfilePageIcons";
 import IntroProfile from "../../../List/IntroProfile";
 import { RxCross2 } from "react-icons/rx";
 import useCreateConversation from "../../../../hooks/useCreateConversation";
+import useFetchUsersByPage from "../../../../hooks/useFetchUsersByPage";
+import useIntersectionObserver from "../../../../hooks/useIntersectionObserver";
+import LoadingIndicator from "../../../../comp/LoadingIndicator";
+
 
 function NewChatHeader({ users }) {
 
@@ -45,34 +49,51 @@ function HeaderBackButton() {
 }
 
 function NewChatSearchContainer({selectedUsers, handleSelection}) {
-    const [ list, setList ] = useState([]);
-    const [ loading, setLoading ] = useState(false);
+    // const [ list, setList ] = useState([]);
+    // const [ loading, setLoading ] = useState(false);
     const [ searchText, setSearchText ] = useState('');
+    const [ page, setPage ] = useState(1)
     const scrollContainerRef = useRef();
+    const lastElementRef = useRef();
 
-    useEffect(() => {
-        const debounceTimeout = setTimeout(() => {
-            async function fetchFilteredUser() {
-                setLoading(true);
+    const [ list, loading, hasMore  ] = useFetchUsersByPage(searchText, page, setPageNumber, `/api/users`);
+    useIntersectionObserver([list], lastElementRef, incrementPage, 0.5);
+
+    function setPageNumber(number) {
+        setPage(number);
+    }
+
+    function incrementPage() {
+        if (hasMore) {
+            console.log('clicked');
+            setPage(page + 1);
+        }
+    }
+        
+
+    // useEffect(() => {
+    //     const debounceTimeout = setTimeout(() => {
+    //         async function fetchFilteredUser() {
+    //             setLoading(true);
                 
-                const response = await fetch(`/api/users?search=${searchText}`);
-                const filteredUser = await response.json();
-                console.log(filteredUser);
-                setLoading(false);
+    //             const response = await fetch(`/api/users?search=${searchText}`);
+    //             const filteredUser = await response.json();
+    //             console.log(filteredUser);
+    //             setLoading(false);
 
-                if (filteredUser.length > 0) {
-                    setList(filteredUser);
-                } else {
-                    setList([])
-                }
-            }
+    //             if (filteredUser.profiles.length > 0) {
+    //                 setList(filteredUser.profiles);
+    //             } else {
+    //                 setList([])
+    //             }
+    //         }
 
-            if (searchText) fetchFilteredUser();
-        }, 300)
+    //         if (searchText) fetchFilteredUser();
+    //     }, 300)
 
-        return () => clearTimeout(debounceTimeout);
+    //     return () => clearTimeout(debounceTimeout);
 
-    }, [ searchText ])
+    // }, [ searchText ])
 
     useEffect(() => {
         scrollContainerRef.current.scrollLeft = scrollContainerRef.current.scrollWidth
@@ -96,20 +117,22 @@ function NewChatSearchContainer({selectedUsers, handleSelection}) {
                 </div>
             </div>
 
-            <SearchListContainer searchText={searchText} list={list} loading={loading} selectedUsers={selectedUsers} handleSelection={handleSelection} />
+            <SearchListContainer searchText={searchText} list={list} lastElementRef={lastElementRef} loading={loading} selectedUsers={selectedUsers} handleSelection={handleSelection} />
         </>
     )
 }
 
-function SearchListContainer({ loading, searchText, list, selectedUsers, handleSelection }) {
-    if (loading) return <p>Loading...</p>;
+function SearchListContainer({ loading, searchText, list, lastElementRef, selectedUsers, handleSelection }) {
     if (!searchText) return <p>No accounts found</p>;
+    if (!list) return;
     if (list.length <= 0) return <p>No accounts found</p>;
 
     function introProfile() {
-        return list.map((userProfile) => {
+        return list.map((userProfile, index) => {
             return (
-                <MakeIntroProfile userProfile={userProfile} selectedUsers={selectedUsers} handleSelection={handleSelection} key={userProfile._id} />
+                <div ref={ (list.length === index + 1) ? lastElementRef : null } key={userProfile._id}>
+                    <MakeIntroProfile userProfile={userProfile} selectedUsers={selectedUsers} handleSelection={handleSelection} />
+                </div>
             )
         })
     }
@@ -117,6 +140,7 @@ function SearchListContainer({ loading, searchText, list, selectedUsers, handleS
     return (
         <div>
             { introProfile() }
+            { loading && <LoadingIndicator /> }
         </div>
     )
 }

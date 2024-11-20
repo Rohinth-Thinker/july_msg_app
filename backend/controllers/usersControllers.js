@@ -1,4 +1,4 @@
-const { findUserProfile, getPaginationUserProfiles, getUserFollowProfiles, doUnfollow, doFollow, doRemove } = require("../db/dbFunctions");
+const { findUserProfile, getPaginationUserProfiles, getUserFollowProfiles, doUnfollow, doFollow, doRemove, updatingProfileSrc, updatingProfileFields } = require("../db/dbFunctions");
 
 async function getUserProfile(req, res) {
     const { username } = req.params;
@@ -110,7 +110,38 @@ async function handleRemove(req, res) {
     }
 }
 
+async function updateProfilePicSrc(req, res) {
+    try {
+        const { username } = req;
+        const { filename } = req.body;
+        if (!filename) {
+            return res.status(400).json({error : 'Invalid file source'});
+        }
+
+        const response = await updatingProfileSrc(username, filename);
+        res.status(200).json({ msg : 'successful' });
+
+    } catch(err) {
+        console.log(`At updateProfilePicSrc Controller, ${err.name} : ${err.message}`);
+        res.status(400).json({error : 'An error occurred, try again later'});   
+     }
+}
+
+async function updateProfileFields(req, res) {
+    try {
+        const {username} = req;
+        const { bio, website } = req.body;
+        
+        const response = await updatingProfileFields(username, bio, website);
+        res.status(200).json({ msg : 'successful' });
+    } catch(err) {
+        console.log(`At updateProfileFields Controller, ${err.name} : ${err.message}`);
+        res.status(400).json({error : 'An error occurred, try again later'});   
+    }
+}
+
 module.exports = {
     getUserProfile, searchUserProfile, getFollowersProfile, getFollowingProfile,
     handleFollow, handleUnfollow, handleRemove,
+    updateProfilePicSrc, updateProfileFields,
 };

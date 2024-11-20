@@ -253,7 +253,17 @@
 }
 
 .submit-button-container > button {
-    Background-color: rgb(0, 149, 246);
+    background-color: rgb(0, 149, 246);
+    border: none;
+    padding: 13px 100px;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.submit-button-container > button.disable {
+    background-color: rgba(0, 148, 246, 0.308);
+    color: rgba(255, 255, 255, 0.075);
     border: none;
     padding: 13px 100px;
     border-radius: 6px;

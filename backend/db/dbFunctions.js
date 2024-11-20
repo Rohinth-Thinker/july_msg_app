@@ -228,13 +228,21 @@ async function createConversation(sender, receivers) {
     }
 }
 
-async function getConversationsById(id) {
+async function getConversationsById(id, username) {
     try {
         if (!ObjectId.isValid(id)) {
             return { status : false, statusCode : 400, msg : 'Invalid url' };
         }
 
-        const conversation = await conversationList.findById(id).populate("messages");
+        const conversation = await conversationList.findOne({
+            _id : id,
+            conversation : { $in : username },
+        }).populate("messages");
+
+        if (!conversation) {
+            return { status : false, statusCode : 400, msg : 'Invalid url' };
+        }
+
         return conversation;
     } catch(err) {
         throw err;
@@ -387,6 +395,25 @@ async function getRepliesCommentByCommentId(id) {
     }
 }
 
+async function updatingProfileSrc(username, filename) {
+    try {
+        const response = await userProfile.updateOne({username}, { userProfilePic : filename });
+        return { status : true }
+    } catch(err) {
+        throw err;
+    }
+}
+
+async function updatingProfileFields(username, userBio, userWebsite) {
+    try {
+        const response = await userProfile.updateOne({ username }, { userBio, userWebsite });
+        return { status : true };
+    } catch(err) {
+        throw err;
+    }
+}
+
+
 module.exports = {
     findUser, createUser, findAndVerifyUser, createUserProfile, createNewPost, appendPostId,
     findUserProfile, getPostById, readPostById, getPaginationUserProfiles, getUserFollowProfiles,
@@ -394,5 +421,6 @@ module.exports = {
     getConversation, createConversation, getConversationsById, getAllConversationByUsername,
     addMessage,
     addPostLikes, removePostLikes,
-    addComments, addReplyComments, getAllComments, getRepliesCommentByCommentId
+    addComments, addReplyComments, getAllComments, getRepliesCommentByCommentId,
+    updatingProfileSrc, updatingProfileFields
 };

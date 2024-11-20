@@ -4,17 +4,18 @@ import { FaUser } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { OptionIcon } from "../../../../public/icons/Post";
 import { SimilarAccountsIcon } from "../../../../public/icons/ProfilePageIcons";
+import { GenerateProfilePhoto, GenerateStoryStyle } from "../../../comp/ProfileGenerator";
 import { useAuthContext } from "../../../context/AuthContext";
 import { ShowFollowingButton } from "../../List/FollowingPage";
 
 
 
 function UserProfilePic({ pic }) {
-    if (!pic) {
-        return <FaUser style={{color:"white", width:'72%', height:'72%'}} />;
-    }
-
-    return <img src={`/profile-pic/${pic}`} style={{width: "100%", height: "100%", borderRadius: '50%'}} />
+    return (
+        <>
+                <GenerateProfilePhoto src={pic} size={80} />
+        </>
+    )
 }
 
 function AboutUpperRightContainer({username, userFollowers, userFollowing}) {

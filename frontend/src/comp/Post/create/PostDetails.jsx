@@ -8,6 +8,7 @@ function PostDetails() {
     const [ captionText, setCaptionText ] = useState('');
     const { mediaFile } = useMediaContext();
     const [ loading, uploadPost ] = useUploadPost();
+
     if (!mediaFile) {
         window.location.href = '/home';
         return;

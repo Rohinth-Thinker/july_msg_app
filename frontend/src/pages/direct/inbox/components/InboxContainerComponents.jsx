@@ -41,7 +41,7 @@ function InboxHeader() {
 function ConversationContainer() {
 
     const { authUser } = useAuthContext();
-    const [ membersProfile, setMembersProfiles ] = useState(null);
+    const [ conversations, setConversations ] = useState(null);
 
     useEffect(() => {
         async function fetchAllConversations() {
@@ -54,33 +54,43 @@ function ConversationContainer() {
                 return;
             }
 
-            const members = results.map((conversation) => {
+            const members = await Promise.all(results.map(async (conversation) => {
                 const username = conversation.conversation.find((username) => username !== authUser.username);
-                return { conversationId : conversation._id, username };
-            })    
 
+                const usernames = conversation.conversation.filter((username) => username !== authUser.username);
+                const profiles = await Promise.all(usernames.map(async (username) => {
+                    const res = await fetch(`/api/users/${username}`);
+                    const profile = await res.json();
+
+                    return profile;
+                }))
+
+                return { conversationId : conversation._id, username, profiles };
+            }) )
+
+            
             const profiles = await Promise.all(members.map(async (member) => {
                 const response = await fetch(`/api/users/${member.username}`);
                 if (!response.ok) return;
 
                 const profile = await response.json();
-                return { conversationId : member.conversationId, ...profile };
+                return { conversationId : member.conversationId, ...profile, profiles : member.profiles };
             }))
 
-            setMembersProfiles(profiles);
+            setConversations(profiles);
         }
 
         if (authUser) fetchAllConversations();
     }, [authUser])
 
-    if (!membersProfile) {
+    if (!conversations) {
         return <LoadingIndicator />;
     }
 
     return (
         <div className="conversation-list-container">            
-            { membersProfile.length > 0 ?
-                <DisplayConversation membersProfile={membersProfile} />
+            { conversations.length > 0 ?
+                <DisplayConversation conversations={conversations} />
                     :
                 <DisplayNoConversation />
             }
@@ -97,22 +107,27 @@ function DisplayNoConversation() {
     )
 }
 
-function DisplayConversation({ membersProfile }) {
-
+function DisplayConversation({ conversations }) {
     return (
         <div className="conversations">
             {
-                membersProfile.map((profile) => <Conversation profile={profile} key={profile.conversationId} />)
+                conversations.map((convo) => <Conversation convo={convo} key={convo.conversationId} />)
             }
         </div>
     )
 }
 
 
-function Conversation({ profile }) {
+function Conversation({ convo }) {
+    let profile;
+    if (convo.profiles.length === 1) profile = convo.profiles[0];
+    else {
+        const username = convo.profiles.map((profile) => ' ' + profile.username).toString();
+        profile = { username };
+    }
 
     return (
-        <Link to={`/direct/t/${profile.conversationId}`} className="conversation-container">
+        <Link to={`/direct/t/${convo.conversationId}`} className="conversation-container">
 
             <div className="story-container aItems-start" style={{width: '60px'}}>
                 <div className="story-profile-pic-container WH-56">

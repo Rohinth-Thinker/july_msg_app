@@ -62,9 +62,9 @@ function VideoComponent({ src }) {
     return (
         <div onClick={(handleVideoControls)} >
             <video ref={videoRef} src={src} className="create-post-image" loop></video>
-            { !isPlaying &&
+            {/* { !isPlaying &&
                 <HiPlay className="play-icon" />
-            }
+            } */}
         </div>
     )
 }
@@ -92,4 +92,4 @@ function PostStylesFooter() {
     )
 }
 
-export { PostStylesHeader, PostStylesMainContainer, PostStylesFooter };
+export { PostStylesHeader, PostStylesMainContainer, PostStylesFooter, VideoComponent };

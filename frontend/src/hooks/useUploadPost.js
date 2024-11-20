@@ -5,6 +5,7 @@ function useUploadPost() {
 
     const uploadPost = async (file, caption) => {
         try {
+            console.log(file);
             setLoading(true);
 
             const formData = new FormData();

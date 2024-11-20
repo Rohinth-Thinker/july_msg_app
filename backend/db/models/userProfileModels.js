@@ -4,12 +4,16 @@ const userProfileSchema = mongoose.Schema({
     username : { type : String, required : true, unique : true, },
 
     userProfilePic : {
-        type : mongoose.Schema.ObjectId,
-        ref : 'profilePic',
+        type : String,
         default : null,
     },
 
     userBio : {
+        type : String,
+        default : '',
+    },
+
+    userWebsite : {
         type : String,
         default : '',
     },
@@ -28,6 +32,11 @@ const userProfileSchema = mongoose.Schema({
         type : [ String ],
         default : [],
     },
+
+    userStories : {
+        type : [ mongoose.Schema.ObjectId ],
+        default : [],
+    }
 }, { timestamps : true })
 
 module.exports = mongoose.model('userProfile', userProfileSchema, 'userProfile');

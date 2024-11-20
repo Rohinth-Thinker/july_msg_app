@@ -27,7 +27,13 @@ async function createNewConversation(req, res) {
 async function getConversations(req, res) {
     try {
         const { id } = req.params;
-        const conversation = await getConversationsById(id);
+        const { username } = req;
+
+        if (!username) {
+            return res.status(400).json({ error : 'Token is not provided' });
+        }
+
+        const conversation = await getConversationsById(id, username);
         if (conversation.status === false) {
             return res.status(conversation.statusCode).json({ error : conversation.msg });
         }

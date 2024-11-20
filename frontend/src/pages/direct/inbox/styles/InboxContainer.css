@@ -58,6 +58,11 @@
 
 .conversation-details-container > .username {
     flex: 1;
+
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
 }
 
 .conversation-details-container > .new-messages {

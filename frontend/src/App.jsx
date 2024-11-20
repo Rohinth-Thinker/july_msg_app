@@ -20,6 +20,7 @@ import MessageContainer from "./pages/direct/threads/MessageContainer";
 import NewChatContainer from "./pages/direct/newChat/NewChatContainer";
 import { NewChatButton } from "./pages/direct/inbox/components/InboxContainerComponents";
 import CommentsContainer from "./comp/Post/postComments/CommentsContainer";
+import CreateStory from "./comp/story/CreateStory";
 
 function App() {
   const { authUser } = useAuthContext();
@@ -33,6 +34,7 @@ function App() {
       <Route path="/home" element={ authUser ? <> <HomePage /> <FooterContainer tab={"home"} /> </> : <Login /> } />
       <Route path="/create/styles" element={ <> <PostStyles /> </> } />
       <Route path="/create/details" element={ <> <PostDetails /> </> } />
+      <Route path="/create/story" element={ <> <CreateStory /> </> } />
 
       <Route path="/:requestUsername" element={<> <ProfilePage /> <FooterContainer tab={"profile"} /> </>} />
       <Route path="/:requestUsername/followers" element={<> <Header header={"Followers"} /> <FollowersPage /> <FooterContainer /> </>} />

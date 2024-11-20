@@ -6,7 +6,7 @@ import { useAuthContext } from "../../../../context/AuthContext";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function MessageContainerHeader({ userProfile, handleSwitchPage }) {
+function MessageContainerHeader({ membersProfiles, handleSwitchPage }) {
 
     return (
         <div className="message-container-header border-bottom">
@@ -14,7 +14,7 @@ function MessageContainerHeader({ userProfile, handleSwitchPage }) {
                 <HeaderBackButton />
             </div>
             <div className="middle-section" >
-                <MessageToWhichUser userProfile={userProfile} />
+                <MessageToWhichUser membersProfiles={membersProfiles} />
             </div>
             <div onClick={() => handleSwitchPage(false)} className="right-section" >
                 <MessageInfoButton />
@@ -39,7 +39,13 @@ function MessageInfoButton() {
     return <MessageInfoIcon />
 }
 
-function MessageToWhichUser({ userProfile }) {
+function MessageToWhichUser({ membersProfiles }) {
+    let profile;
+    if (membersProfiles.length === 1) profile = membersProfiles[0];
+    else {
+        const username = membersProfiles.map((profile) => ' ' + profile.username).toString();
+        profile = { username };
+    }
     
     return (
         <div className="message-to-which-user">
@@ -54,7 +60,7 @@ function MessageToWhichUser({ userProfile }) {
 
             <div className="user-details">
                 <div className="username">
-                    <span>{ userProfile.username }</span>
+                    <span>{ profile.username }</span>
                 </div>
 
                 <div className="user-active-status">
@@ -81,9 +87,11 @@ function Messages({ messages }) {
 function Message({ message }) {
     const { authUser } = useAuthContext();
     const isSender = authUser.username === message.username;
+    console.log(message);
 
     return (
         <div className={`message ${isSender ? 'sender': ''}`}>
+            <span className="sender-name">{!isSender && message.username}</span>
             <div className={isSender ? 'sender' : ''}>
                 <span>{ message.message }</span>
             </div>
@@ -149,7 +157,12 @@ function MessageDetailsHeader({ handleSwitchPage }) {
     )
 }
 
-function MessageDetailsMembersContainer({ userProfile }) {
+function MessageDetailsMembersContainer({ userProfile, membersProfiles }) {
+    
+    let profiles = membersProfiles;
+    if (membersProfiles.length > 1) {
+        profiles = [ userProfile, ...membersProfiles ];
+    }
     
     return (
         <div className="message-details-members-container border-bottom">
@@ -157,7 +170,10 @@ function MessageDetailsMembersContainer({ userProfile }) {
                 <span className="text-members">Members</span>
             </div>
 
-            <IntroProfile userProfile={userProfile} />
+            { profiles.map((profile) => <IntroProfile userProfile={profile} key={profile._id} /> ) }
+            {/* <div>
+                <IntroProfile userProfile={userProfile} />
+            </div> */}
         </div>
     )
 }

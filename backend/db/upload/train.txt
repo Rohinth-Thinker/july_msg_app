@@ -1,0 +1,11 @@
+{
+    name : "dcjfc",
+    owns : 'car',
+}
+
+{ 
+    bike : [  ],
+    car : [ ]
+}
+
+obj.findAll({ owns : 'car' });

@@ -10,11 +10,7 @@ function ProfileAbout({userAbout}) {
         <div className="profile-about-container border-bottom">
             <div className="profile-about-upper">
                 <div className="profile-about-pic-container">
-                    <div className="story-pic-border">
-                        <div className="story-profile-pic-container WH-80">
-                            <UserProfilePic pic={userProfilePic} />
-                        </div>
-                    </div>
+                    <UserProfilePic pic={userProfilePic} />
                 </div>
                 <AboutUpperRightContainer username={username} userFollowers={userFollowers} userFollowing={userFollowing} />
             </div>
