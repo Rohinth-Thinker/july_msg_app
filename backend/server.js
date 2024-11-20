@@ -14,7 +14,7 @@ const { app, server } = require('./socket/socket');
 const PORT = process.env.PORT_NUM;
 
 app.use(express.json());
-// app.use(cors());
+app.use(cors());
 app.use(cookieParser());
 // app.use(cors({
 //     origin : [ "http://localhost:5173", "http://192.168.188.136:5173", ],
