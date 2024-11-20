@@ -27,6 +27,8 @@ function App() {
 
   return (
     <Routes>
+
+      <Route path="/" element={ authUser ? <Navigate to="/home" /> : <Signup /> } />
       
       <Route path="/signup" element={ authUser ? <Navigate to="/home" /> : <Signup /> } />
       <Route path="/signin" element={ authUser ? <Navigate to="/home" /> : <Login /> } />
