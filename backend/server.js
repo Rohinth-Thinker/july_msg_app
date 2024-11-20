@@ -11,6 +11,8 @@ const usersRoutes = require('./routes/usersRoutes');
 const conversationRoutes = require('./routes/conversationRoutes');
 const { app, server } = require('./socket/socket');
 
+const path = require('path');
+
 const PORT = process.env.PORT_NUM;
 
 app.use(express.static('static'))
@@ -33,6 +35,10 @@ app.use('/api/conversation', conversationRoutes);
 
 app.get('/', (req, res) => {
     res.status(200).json({ msg : "HEY, is it working..??" });
+})
+
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, '../static/index.html'))
 })
 
 
