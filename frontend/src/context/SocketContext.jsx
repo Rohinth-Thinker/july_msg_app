@@ -15,7 +15,7 @@ export const SocketContextProvider = ({ children }) => {
 
     useEffect(() => {
         function connectSocket() {
-            const socket = io('https://july-msg.onrender.com', {
+            const socket = io({
                 query : {
                     username : authUser.username,
                 }
