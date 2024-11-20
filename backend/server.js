@@ -4,11 +4,7 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 
 const { connectToDb } = require('./db/database');
-const authRoutes = require('./routes/authRoutes');
-const uploadRoutes = require('./routes/uploadRoutes');
-const postRoutes = require('./routes/postRoutes');
-const usersRoutes = require('./routes/usersRoutes');
-const conversationRoutes = require('./routes/conversationRoutes');
+const router = require('./routes/index');
 const { app, server } = require('./socket/socket');
 
 const path = require('path');
@@ -27,11 +23,7 @@ app.use(cookieParser());
 
 app.use('/api/store/media/profile', express.static('/home/rohinth/python_program_trail/practice/store/media/profile'));
 
-app.use('/api/auth', authRoutes);
-app.use('/api/upload', uploadRoutes);
-app.use('/api/post', postRoutes);
-app.use('/api/users', usersRoutes);
-app.use('/api/conversation', conversationRoutes);
+app.use('/api', router);
 
 app.get('/', (req, res) => {
     res.status(200).json({ msg : "HEY, is it working..??" });
