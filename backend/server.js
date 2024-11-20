@@ -13,6 +13,8 @@ const { app, server } = require('./socket/socket');
 
 const PORT = process.env.PORT_NUM;
 
+app.use(express.static('static'))
+
 app.use(express.json());
 // app.use(cors());
 app.use(cookieParser());
