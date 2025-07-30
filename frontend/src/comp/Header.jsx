@@ -1,11 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import { BackButtonIcon } from "../../public/icons/ProfilePageIcons";
 
-function Header({ header, children }) {
+function Header({ header, children, navigateUrl }) {
 
     const navigate = useNavigate();
 
     function navigateToPreviousPage() {
+        if(navigateUrl) {
+            return navigate(navigateUrl)
+        }
         navigate(-1);
     }
 

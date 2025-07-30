@@ -7,6 +7,7 @@ import { NewChatIcon } from "../../../../../public/icons/DirectPageIcon";
 import { GoDotFill } from "react-icons/go";
 import { useAuthContext } from "../../../../context/AuthContext";
 import LoadingIndicator from "../../../../comp/LoadingIndicator";
+import { GenerateProfilePhoto } from "../../../../comp/ProfileGenerator";
 
 function NewChatButton() {
 
@@ -130,10 +131,7 @@ function Conversation({ convo }) {
         <Link to={`/direct/t/${convo.conversationId}`} className="conversation-container">
 
             <div className="story-container aItems-start" style={{width: '60px'}}>
-                <div className="story-profile-pic-container WH-56">
-                    <FaUser style={{color:"white", width:'72%', height:'72%'}} />
-                    {/* <img src="profile-pic.jpg" style={{width: "100%", height: "100%", borderRadius: '50%'}} /> */}
-                </div>
+                <GenerateProfilePhoto src={profile?.userProfilePic} size={56} />
             </div>
 
             <div className="conversation-details-container">

@@ -16,7 +16,7 @@
     width: 100%;
 }
 
-.create-post-image-container > div {
+.video-parent-container {
     position: relative;
     display: flex;
     justify-content: center;

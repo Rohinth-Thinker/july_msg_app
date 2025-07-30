@@ -17,20 +17,25 @@ app.use(express.json());
 // app.use(cors());
 app.use(cookieParser());
 // app.use(cors({
-//     origin : [ "http://localhost:5173", "http://192.168.188.136:5173", ],
+//     origin : [ "http://localhost:5173", "http://192.168.188.136:5173", "http://127.0.0.1:5500" ],
 //     credentials : true,
 // }))
 
-app.use('/api/store/media/profile', express.static('/home/rohinth/python_program_trail/practice/store/media/profile'));
+app.use('/api/store/media/profile', express.static('../frontend/public/profile-pic'));
+// app.use('/api/store/media/profile', express.static('/profile-pic'));
 
 app.use('/api', router);
 
+// app.use(express.static(path.join(__dirname, '/../static')));
+
 app.get('/', (req, res) => {
+    console.log(path.join(__dirname, '../static/index.html'));
     res.status(200).json({ msg : "HEY, is it working..??" });
 })
 
 app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, '../static/index.html'))
+    console.log('going');
+    res.sendFile(path.join(__dirname, '/../static/index.html'));
 })
 
 

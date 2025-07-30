@@ -10,7 +10,7 @@ function Signup() {
             onSubmit={authenticate}
             loading={loading}
             placeholder={{ username : 'Create your username...', password : 'Create your password...' }}
-            buttonText={'signup'}
+            buttonText={'SIGN UP'}
         />
     )
 }

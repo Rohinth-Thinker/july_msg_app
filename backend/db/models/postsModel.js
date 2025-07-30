@@ -22,7 +22,9 @@ const postsSchema = mongoose.Schema({
             ref : "commentList",
             default : []
         }
-    ]
+    ],
+
+    fileType: String,
 
 }, { timestamps : true })
 

@@ -74,7 +74,7 @@ function ExplorePostsContainer() {
                 posts.map((post, index) => {
                     let isLast = posts.length === index + 1;
                     return <ProfilePostThumbnail ref={isLast ? lastElementRef : null}
-                                postId={post._id} postSrc={post.postSrc} key={post._id} />
+                                postId={post._id} postSrc={post.postSrc} fileType={post.fileType} key={post._id} />
                 })
             }
 

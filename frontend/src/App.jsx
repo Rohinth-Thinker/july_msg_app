@@ -21,6 +21,7 @@ import NewChatContainer from "./pages/direct/newChat/NewChatContainer";
 import { NewChatButton } from "./pages/direct/inbox/components/InboxContainerComponents";
 import CommentsContainer from "./comp/Post/postComments/CommentsContainer";
 import CreateStory from "./comp/story/CreateStory";
+import Index from "./pages/Index";
 
 function App() {
   const { authUser } = useAuthContext();
@@ -28,7 +29,7 @@ function App() {
   return (
     <Routes>
 
-      <Route path="/" element={ authUser ? <Navigate to="/home" /> : <Signup /> } />
+      <Route path="/" element={ <Index /> } />
       
       <Route path="/signup" element={ authUser ? <Navigate to="/home" /> : <Signup /> } />
       <Route path="/signin" element={ authUser ? <Navigate to="/home" /> : <Login /> } />
@@ -48,7 +49,7 @@ function App() {
       <Route path="/explore" element={<> <ExplorePage /> <FooterContainer tab={"explore"} /> </>} />
 
 
-      <Route path="/direct/inbox" element={ <> <Header header={authUser?.username}> <NewChatButton /> </Header> <InboxContainer /> </> } />
+      <Route path="/direct/inbox" element={ <> <Header navigateUrl={"/home"} header={authUser?.username}> <NewChatButton /> </Header> <InboxContainer /> </> } />
       <Route path="/direct/t/:conversationId" element={ <> <MessageContainer /> </> } />
       <Route path="/direct/new" element={ <> <NewChatContainer /> </> } />
 

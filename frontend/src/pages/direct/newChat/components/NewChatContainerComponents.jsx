@@ -8,11 +8,13 @@ import useCreateConversation from "../../../../hooks/useCreateConversation";
 import useFetchUsersByPage from "../../../../hooks/useFetchUsersByPage";
 import useIntersectionObserver from "../../../../hooks/useIntersectionObserver";
 import LoadingIndicator from "../../../../comp/LoadingIndicator";
+import { useNavigate } from "react-router-dom";
 
 
 function NewChatHeader({ users }) {
 
     const [ loading, createConversation ] = useCreateConversation();
+    const navigate = useNavigate();
 
     const isEmpty = users.length <= 0;
 
@@ -28,9 +30,13 @@ function NewChatHeader({ users }) {
         location.href = `/direct/t/${conversationId}`;
     }
 
+    async function navigateToPreviousPage() {
+        navigate(-1);
+    }
+
     return (
         <div className="message-container-header border-bottom" >
-            <div className="left-section" >
+            <div className="left-section" onClick={navigateToPreviousPage} >
                 <HeaderBackButton />
             </div>
             <div className="middle-section center-element" >

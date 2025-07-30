@@ -52,9 +52,9 @@ async function createUserProfile(username) {
     }
 }
 
-async function createNewPost(username, postFileId, postCaption) {
+async function createNewPost(username, postFileId, postCaption, fileType) {
     try {
-        const post = await posts.create({ username, postFileId, postCaption });
+        const post = await posts.create({ username, postFileId, postCaption, fileType });
         return post;
     } catch(err) {
         throw err;

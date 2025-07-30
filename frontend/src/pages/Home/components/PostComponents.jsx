@@ -32,16 +32,17 @@ function ClickedPostOptionContainer({showOptionList}) {
     )
 }
 
-function PostImageContainer({ src }) {
-    
-   
-    // if (!video.canPlayType('video')) {
-    //     return (
-    //         <div className="post-image-container">
-    //             <video src={src} autoPlay muted></video>;
-    //         </div> 
-    //     )
-    // }
+function PostImageContainer({ src, fileType }) {
+
+    if (fileType.startsWith("video/")) {
+        return (
+            <div className="post-image-container">
+                {/* <video src={src} autoPlay muted></video> */}
+                <VideoComponent src={src} />
+            </div> 
+        )
+    }
+
     return (
         <div className="post-image-container">
             <img className="post-image" src={src} />

@@ -1,4 +1,7 @@
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { useRef } from "react";
+import {storage} from '../../../firebase/firebase';
+
 
 function ChangePhoto({ handleSetUserProfile }) {
 
@@ -8,30 +11,38 @@ function ChangePhoto({ handleSetUserProfile }) {
         inputRef.current.click();
     }
 
+
+    async function uploadPhoto(pic) {
+        const storageRef = ref(storage, `projects/insta/profile-pic/${pic.name}`);
+
+        try {
+            const snapshot = await uploadBytes(storageRef, pic);
+            console.log('Uploaded Successfull');
+
+            const downloadUrl = await getDownloadURL(snapshot.ref);
+            return downloadUrl;
+        } catch(err) {
+            console.log("Upload Failed, Try again");
+            console.log(err);
+        }
+        
+    }
+
     async function handleFileChange(e) {
         const pic = e.target.files[0];
-        
-        const formData = new FormData();
-        formData.append('media', pic);
+        const url = await uploadPhoto(pic);
 
-        const uploadResponse = await fetch('/api/upload/profile-pic', {
-            method : "POST",
-            body : formData,
-        })
+        console.log('Photo Selected');
+        handleSetUserProfile({ userProfilePic : url });
 
-        if (!uploadResponse.ok) {
-            return;
-        }
-        const { filename } = await uploadResponse.json();
 
         const updateResponse = await fetch('/api/users/profile/pic/update', {
             method : "PATCH",
-            body : JSON.stringify({ filename }),
+            body : JSON.stringify({ filename: url }),
             headers : {
                 "Content-Type" : "application/json",
             }
         })
-        handleSetUserProfile({ userProfilePic : filename });
     }
 
     return (

@@ -9,6 +9,7 @@ function PostDetails() {
     const { mediaFile } = useMediaContext();
     const [ loading, uploadPost ] = useUploadPost();
 
+    console.log(mediaFile.type);
     if (!mediaFile) {
         window.location.href = '/home';
         return;

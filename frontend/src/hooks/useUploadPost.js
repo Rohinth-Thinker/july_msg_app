@@ -25,7 +25,7 @@ function useUploadPost() {
 
             const storePostResponse = await fetch("/api/post/store", {
                 method : "POST",
-                body : JSON.stringify({ fileId, caption }),
+                body : JSON.stringify({ fileId, caption, fileType: file.type }),
                 headers : {
                     "Content-Type" : "application/json",
                 }

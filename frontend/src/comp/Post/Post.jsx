@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { useAuthContext } from "../../context/AuthContext";
 import { ClickedPostOptionContainer, CommentPostContainer, LikePostContainer, PostCaptionContainer, PostCommentsCountContainer, PostImageContainer, PostLikesCountContainer, PostOptionContainer, PostTimeContainer, SavePostContainer, SendPostContainer }
  from "../../pages/Home/components/PostComponents";
+import { GenerateProfilePhoto } from "../ProfileGenerator";
 
 
 function Post({ postProps }, ref) {
@@ -12,6 +13,17 @@ function Post({ postProps }, ref) {
     const [ showOptionList, setShowOptionList ] = useState(false);
     const [ post, setPost ] = useState(postProps || null);
     const { authUser } = useAuthContext();
+
+
+    useEffect(() => {
+        async function fetchUserProfile() {
+            const response = await fetch(`/api/users/${post.username}`);
+            const profile = await response.json();
+            setPost({...post, userProfilePic: profile.userProfilePic});
+        }
+
+        if(post) fetchUserProfile()
+    }, [postProps])
 
     async function handleLikes() {
         let postLikes = post.postLikes;
@@ -47,12 +59,13 @@ function Post({ postProps }, ref) {
                 <div className="post-header-container">
                     <div className="post-header-left-side">
                         <div className="story-pic-border">
-                            <div className="story-profile-pic-container WH-38">
-                                <FaUser style={{color:"white", width:'72%', height:'72%'}} />
+                            <div className="story-profile-pic-container WH-38" style={{backgroundColor: "red"}}>
+                                {/* <FaUser style={{color:"white", width:'72%', height:'72%'}} /> */}
+                                <GenerateProfilePhoto src={post.userProfilePic} size={35} />
                             </div>
                         </div>
                         <div className="post-header-acoount-name-container">
-                            <Link className="post-header-account-name"> { post.username } </Link>
+                            <Link to={`/${post.username}`} className="post-header-account-name"> { post.username } </Link>
                         </div>
                     </div>
 
@@ -63,7 +76,7 @@ function Post({ postProps }, ref) {
 
                 </div>
 
-            <PostImageContainer src={post.postSrc} />
+                <PostImageContainer src={post.postSrc} fileType={post.fileType} />
             
                 <div className="post-operations-container HORI-PAD-16">
                     <div className="post-operations-left-side">

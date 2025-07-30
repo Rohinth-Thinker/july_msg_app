@@ -66,9 +66,9 @@ function EditProfile() {
         }
         setWebsite(e.target.value);
     }
-
-    if (loading) return <LoadingIndicator />
-    if (!userProfile) return;
+    // if(loading) return <LoadingIndicator />;
+    // if (!userProfile) return;
+    if (loading || !userProfile) return <div className="edit-profile-container"><LoadingIndicator /></div>;
 
     return (
         <div className="edit-profile-container">
@@ -79,7 +79,7 @@ function EditProfile() {
                         <GenerateProfilePhoto src={userProfile.userProfilePic} size={56} />
                     </div>
                     <div className="photo-details-container">
-                        <span>disturbing_heart</span>
+                        <span>{userProfile.username}</span>
                         <ChangePhoto handleSetUserProfile={handleSetUserProfile} />
                     </div>
                 </div>

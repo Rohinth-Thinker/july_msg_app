@@ -6,6 +6,7 @@ function useAuth(endpoint) {
 
     const authenticate = async (inputs) => {
             setLoading(true);
+            console.log(inputs);
 
             const validation = validateInputs(inputs);
             if (!validation.status) {

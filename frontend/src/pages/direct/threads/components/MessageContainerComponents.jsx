@@ -5,6 +5,7 @@ import IntroProfile from "../../../List/IntroProfile";
 import { useAuthContext } from "../../../../context/AuthContext";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { GenerateProfilePhoto } from "../../../../comp/ProfileGenerator";
 
 function MessageContainerHeader({ membersProfiles, handleSwitchPage }) {
 
@@ -51,10 +52,7 @@ function MessageToWhichUser({ membersProfiles }) {
         <div className="message-to-which-user">
             <div className="user-profile">
                 <div className="story-container" style={{width:'30px'}}>
-                    <div className="story-profile-pic-container WH-28">
-                        <FaUser style={{color:"white", width:'72%', height:'72%'}} />
-                        {/* <img src="profile-pic.jpg" style={{width: "100%", height: "100%", borderRadius: '50%'}} /> */}
-                    </div>
+                    <GenerateProfilePhoto src={profile.userProfilePic} size={35} />
                 </div>
             </div>
 

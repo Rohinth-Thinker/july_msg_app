@@ -1,0 +1,19 @@
+
+.index-container {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    font-size: 15px;
+    padding: 0 20px;
+    gap: 15px;
+}
+
+.index-container > a {
+    font-size: 17px;
+    color: blue;
+    text-decoration: underline;
+    text-underline-offset: 5px;
+    text-decoration-color: white;
+}

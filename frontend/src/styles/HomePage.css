@@ -132,6 +132,16 @@
     height: 56px;
 }
 
+.story-profile-pic-container.WH- {
+    width: 45px;
+    height: 45px;
+}
+
+.story-profile-pic-container.WH-100P {
+    width: 100%;
+    height: 100%;
+}
+
 .story-profile-pic-container.WH-38 {
     width: 38px;
     height: 38px;
@@ -153,8 +163,8 @@
 }
 
 .story-profile-pic-container.WH-28 {
-    width: 28px;
-    height: 28px;
+    width: 21px;
+    height: 21px;
 }
 
 .story-profile-pic-container {

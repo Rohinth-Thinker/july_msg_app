@@ -11,11 +11,34 @@ html, body, #root {
   background-color: #000000;
 }
 
-.auth-form {
+.auth-main-container {
   height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.auth-main-container > h1.headline {
+  text-decoration: underline;
+  text-underline-offset: 10px;
+  text-decoration-color: rgb(191, 224, 235);
+}
+
+.auth-form {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.auth-main-container > .bottom-button {
+  background-color: transparent;
+  border: 2px solid lightblue;
+  padding: 15px;
+  font-size: 17px;
+  width: 80%;
+  border-radius: 20px;
+  text-align: center;
 }
 
 .container-form-elements {
@@ -27,18 +50,20 @@ html, body, #root {
 
 .container-form-elements > input {
   width: 300px;
-  padding: 10px;
-  border-radius: 6px;
+  padding: 15px;
+  border-radius: 20px;
   color: black;
+  font-size: 17px;
 }
 
 .container-form-elements > button {
-  width: 60px;
-  padding: 10px;
+  padding: 15px;
   border: none;
-  border-radius: 6px;
+  border-radius: 20px;
   font-weight: bold;
   background-color: blue;
+  width: 100%;
+  font-size: 17px;
 }
 
 

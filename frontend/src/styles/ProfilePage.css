@@ -146,7 +146,15 @@
 
 .post-thumbnail-container {
     height: 122px;
-    
+    position: relative;
+}
+
+.thumbnail-play-icon {
+    position: absolute;
+    right: 5%;
+    top: 5%;
+    width: 25px;
+    height: 25px;
 }
 
 .post-thumbnail-pic {

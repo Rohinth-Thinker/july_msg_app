@@ -14,36 +14,50 @@ function AuthForm({ onSubmit, loading, placeholder, buttonText }) {
     async function handleSubmit(e) {
         e.preventDefault();
         console.log("Its updated");
-            const response = await onSubmit(inputs);
-            if (!response.status) {
-                return console.log(response.msg);
-            }
+        const response = await onSubmit(inputs);
+        if (!response.status) {
+            return console.log(response.msg);
+        }
 
-            console.log(inputs);
+        console.log(inputs);
 
-            setAuthUser({username : inputs.username});
-            localStorage.setItem('user', JSON.stringify({username : inputs.username}));
-            setInputs({username : '', password : ''});
+        setAuthUser({username : inputs.username});
+        localStorage.setItem('user', JSON.stringify({username : inputs.username}));
+        setInputs({username : '', password : ''});
 
-            return;
+        return;
 
        
     }
 
+    let goTo, goToLink;
+    if(buttonText === 'SIGN UP') {
+        goTo = 'Log Into Existing Account';
+        goToLink = '/signin';
+    } else {
+        goTo = 'Create New Account';
+        goToLink = '/signup';
+    } 
+
     return (
-        <form className="auth-form" onSubmit={handleSubmit} >
-            <div className="container-form-elements">
+        <div className="auth-main-container">
+            <h1 className="headline">INSTAGRAM</h1>
+            <form className="auth-form" onSubmit={handleSubmit} >
+                <div className="container-form-elements">
 
-                <input type="text" placeholder={placeholder.username}  onChange={(e) => {
-                    setInputs({...inputs, username : e.target.value})}} value={inputs.username} />
+                    <input type="text" placeholder={placeholder.username}  onChange={(e) => {
+                        setInputs({...inputs, username : e.target.value})}} value={inputs.username} />
 
-                <input type="text" placeholder={placeholder.password} onChange={(e) => {
-                    setInputs({...inputs, password : e.target.value})}} value={inputs.password} />
+                    <input type="text" placeholder={placeholder.password} onChange={(e) => {
+                        setInputs({...inputs, password : e.target.value})}} value={inputs.password} />
 
-                <button type="submit" disabled={loading}>{ buttonText }</button>
+                    <button type="submit" disabled={loading}>{ buttonText }</button>
 
-            </div>
-        </form>
+                </div>
+            </form>
+
+            <a href={goToLink} className="bottom-button">{goTo}</a>
+        </div>
     )
 }
 

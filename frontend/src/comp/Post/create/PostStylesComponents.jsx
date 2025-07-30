@@ -47,7 +47,7 @@ function showMedia(media, src) {
 }
 
 function VideoComponent({ src }) {
-    const [ isPlaying, setIsPlaying ] = useState(false);
+    const [ isPlaying, setIsPlaying ] = useState(true);
     const videoRef = useRef(null);
 
     function handleVideoControls(e) {
@@ -60,11 +60,11 @@ function VideoComponent({ src }) {
     }
 
     return (
-        <div onClick={(handleVideoControls)} >
-            <video ref={videoRef} src={src} className="create-post-image" loop></video>
-            {/* { !isPlaying &&
+        <div className="video-parent-container" onClick={(handleVideoControls)} >
+            <video ref={videoRef} src={src} autoPlay className="create-post-image" loop></video>
+            { !isPlaying &&
                 <HiPlay className="play-icon" />
-            } */}
+            }
         </div>
     )
 }

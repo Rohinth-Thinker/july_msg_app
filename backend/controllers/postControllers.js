@@ -4,9 +4,9 @@ const { post } = require("../routes/authRoutes");
 async function storePost(req, res) {
     try {
         const { username } = req;
-        const { fileId, caption } = req.body;
+        const { fileId, caption, fileType } = req.body;
 
-        const newPost = await createNewPost(username, fileId, caption);
+        const newPost = await createNewPost(username, fileId, caption, fileType);
         const reponse = await appendPostId(username, newPost._id)
         
         res.status(200).json({msg : "Post is Stored successfully"});

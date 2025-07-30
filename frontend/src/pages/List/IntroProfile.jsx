@@ -1,5 +1,6 @@
 import { FaUser } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { GenerateProfilePhoto } from "../../comp/ProfileGenerator";
 
 
 function IntroProfile({ children, userProfile }) {
@@ -9,9 +10,7 @@ function IntroProfile({ children, userProfile }) {
             <div className="intro-profile-left-section aItems">
                 <div className="intro-profile-pic-container">
                     <div className="story-pic-border">
-                        <div className="story-profile-pic-container WH-50">
-                            <FaUser style={{color:"white", width:'72%', height:'72%'}} />
-                        </div>
+                        <GenerateProfilePhoto src={userProfile.userProfilePic} size={50}/>
                     </div>
                 </div>
 

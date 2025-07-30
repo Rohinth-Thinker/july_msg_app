@@ -12,6 +12,7 @@ function uploadProfilePic(req, res) {
     if(!req.file) {
         return res.status(400).json({error : 'Invalid File'})
     }
+    console.log(req.file);
     res.json({ filename : req.file.filename });
 }
 

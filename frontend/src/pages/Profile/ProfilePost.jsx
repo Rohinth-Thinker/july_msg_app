@@ -20,7 +20,7 @@ export default ProfilePost;
 
 function postThumbnail(postList) {
     const thumbnails = postList.map((post) => {
-        return <ProfilePostThumbnail postId={post._id} postSrc={post.postSrc} key={post._id} />
+        return <ProfilePostThumbnail postId={post._id} postSrc={post.postSrc} fileType={post.fileType} key={post._id} />
     })
 
     return thumbnails;
